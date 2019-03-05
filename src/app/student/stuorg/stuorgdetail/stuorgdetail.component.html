@@ -1,0 +1,60 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="../../vieworg">组织(活动)信息</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      组织(活动)详情信息
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-card style="width:800px;" [nzTitle]="cardtitle">
+    <ng-template #cardtitle>
+      组织(活动)详情信息
+      <button (click)="edit()">编辑</button>
+      <button (click)="delete()">删除</button>
+    </ng-template>
+    <form nz-form [formGroup]="orgForm" class="login-form" (ngSubmit)="_submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="3" style="text-align:left;">类别</nz-form-label>
+        <nz-form-control>
+          <nz-select style="width: 200px;" formControlName="orgClass" nzAllowClear>
+            <nz-option *ngFor="let option of typeList" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="3" style="text-align:left;">名称</nz-form-label>
+        <nz-form-control>
+          <input style="width: 250px;" formControlName="orgName" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="3" style="text-align:left;">担任角色</nz-form-label>
+        <nz-form-control>
+          <input style="width: 250px;" formControlName="orgDuty" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="3" style="text-align:left;">参与日期</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="orgBegin"></nz-date-picker>
+          至
+          <nz-date-picker formControlName="orgEnd"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="3" style="text-align:left;">说明</nz-form-label>
+        <nz-form-control>
+          <textarea style="width: 300px; resize: none;" rows="4" formControlName="orgIntro" nz-input></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <button style="margin: 20px;" *ngIf="isEdit" nz-button [nzLoading]="isConfirmLoading" [nzType]="'primary'">提交</button>
+    </form>
+  </nz-card>
+</div>

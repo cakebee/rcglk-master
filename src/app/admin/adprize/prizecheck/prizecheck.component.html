@@ -1,0 +1,58 @@
+<div>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        主页
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a routerLink="../../prize">获奖管理</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        奖项审核
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
+  
+  <div style="margin: 30px;">
+    <nz-card style="width:800px;" [nzTitle]="title">
+      <ng-template #title>
+        <h2>
+          <span>奖项审核</span>
+          <span style="margin-left: 30px;">
+            <button (click)="pass()" nz-button [nzType]="'primary'" style="background-color: #28B463;">
+              <span>通过</span>
+            </button>
+            <button (click)="isVisible=true" nz-button [nzType]="'primary'" style="background-color: #E74C3C;margin-left: 20px;">
+              <span>不通过</span>
+            </button>
+          </span>
+        </h2>
+      </ng-template>
+        <ul>
+          <li>奖项名称: {{prize.prizeName}}</li>
+          <li>奖项类别: {{prize.prizeClass}}</li>
+          <li>奖项级别: {{prize.prizeLevel}}</li>
+          <li>获奖时间: {{prize.prizeDate}}</li>
+          <li>证明文件: <br> <img src="{{prize.prizeFile}}" alt="图片加载失败" width="400px" height="225px"></li>
+          <li>说明: {{prize.prizeIntro}}</li>
+          <li>审核状态: {{prize.status}}</li>
+          <li *ngIf="prize.status=='审核未通过'">失败原因: {{prize.reason}}</li>
+        </ul>
+    </nz-card>
+  
+    <nz-modal [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="isVisible=false">
+      <ng-template #modalTitle>
+        请输入未通过原因
+      </ng-template>
+      <ng-template #modalContent>
+        <textarea nz-input [(ngModel)]="reason" rows="6" placeholder="请输入未通过原因"></textarea>
+      </ng-template>
+      <ng-template #modalFooter>
+        <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="isVisible=false">
+          返 回
+        </button>
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="unpass()" [nzLoading]="isConfirmLoading">
+          提 交
+        </button>
+      </ng-template>
+    </nz-modal>
+  </div>

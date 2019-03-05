@@ -1,0 +1,54 @@
+<nz-layout class="layout">
+  <nz-header>
+      <div class="logo"></div>
+      <div class="title">校园人才库系统 · 学生端</div>
+      <a class="logout" (click)="logout()">退出登录</a>
+  </nz-header>
+  <nz-content style="padding:25px 50px 10px 50px">
+    <ul nz-menu [nzMode]="'horizontal'">
+      <li nz-menu-item routerLink="./info">
+        <i class="anticon anticon-mail"></i> 个人信息
+      </li>
+      <li nz-submenu>
+        <span title>
+          <i class="anticon anticon-setting"></i> 获奖信息</span>
+        <ul>
+          <li nz-menu-group>
+            <ul>
+              <li nz-menu-item routerLink="./addprize">添加获奖信息</li>
+              <li nz-menu-item routerLink="./viewprize">查看获奖信息</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu>
+        <span title>
+          <i class="anticon anticon-setting"></i> 活动组织经历</span>
+        <ul>
+          <li nz-menu-group>
+            <ul>
+              <li nz-menu-item routerLink="./addorg">添加活动组织信息</li>
+              <li nz-menu-item routerLink="./vieworg">查看活动组织信息</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu>
+        <span title>
+          <i class="anticon anticon-setting"></i> 论文信息</span>
+        <ul>
+          <li nz-menu-group>
+            <ul>
+              <li nz-menu-item routerLink="./addessay">添加论文信息</li>
+              <li nz-menu-item routerLink="./viewessay">查看论文信息</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div style="background:#fff; padding: 24px; min-height: 400px;">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer style="text-align: center;">YiLu studio  ©2018 Authored by Group 3</nz-footer>
+</nz-layout>

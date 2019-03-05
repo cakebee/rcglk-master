@@ -1,0 +1,50 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      论文信息
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      查看论文信息
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-table #basicTable [nzLoading]="_loading" [nzData]="essayLists" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current">
+    <thead>
+      <tr>
+        <th>
+          <span>论文题目</span>
+        </th>
+        <th>
+          <span>作者</span>
+        </th>
+        <th>
+          <span>发表期刊</span>
+        </th>
+        <th>
+          <span>论文级别</span>
+        </th>
+        <th>
+          <span>发表时间</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td><a routerLink="../orgdetails/{{data.orgId}}">{{data.essayTitle}}</a></td>
+        <td>
+          <ul>
+            <li *ngFor="let author of data.essayAuthor">{{author.order}}: {{author.name}}</li>
+          </ul>
+        </td>
+        <td>{{data.periodical}}</td>
+        <td>{{data.essayLevel}}</td>
+        <td>{{data.essayDate}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

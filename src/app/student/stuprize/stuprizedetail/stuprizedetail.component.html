@@ -1,0 +1,75 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      获奖信息
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="../../viewprize">查看获奖信息</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      奖项详情信息
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-card style="width:800px;" [nzTitle]="cardtitle">
+    <ng-template #cardtitle>
+      奖项详情信息
+      <button (click)="edit()">编辑</button>
+      <button (click)="delete()">删除</button>
+    </ng-template>
+    <form nz-form [formGroup]="prizeForm" class="login-form" (ngSubmit)="_submitForm()">
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">类别</nz-form-label>
+        <nz-form-control>
+            <nz-cascader style="width: 250px;" [nzOptions]="typeList" formControlName="prizeClass"></nz-cascader>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">名称</nz-form-label>
+        <nz-form-control>
+            <input style="width: 250px;" formControlName="prizeName" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">级别</nz-form-label>
+        <nz-form-control>
+            <input style="width: 250px;" formControlName="prizeLevel" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">获奖日期</nz-form-label>
+        <nz-form-control>
+            <nz-date-picker formControlName="prizeDate"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <li>证明文件: <img src="{{prizeForm.controls.prizeFile.value}}" alt="图片加载失败" style="vertical-align: top; margin-left: 30px;" max-width="400px" max-height="225px"></li><br>
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">说明</nz-form-label>
+        <nz-form-control>
+            <textarea style="width: 300px; resize: none;" rows="4" formControlName="prizeIntro" nz-input></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+          <nz-form-label [nzSm]="3" style="text-align:left;">审核状态</nz-form-label>
+        <nz-form-control>
+            <input style="width: 250px;" formControlName="status" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="prizeForm.controls.status.value=='审核未通过'">
+          <nz-form-label [nzSm]="3" style="text-align:left;">未通过原因</nz-form-label>
+        <nz-form-control>
+            <textarea style="width: 300px; resize: none;" formControlName="reason" rows="4" nz-input></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <button style="margin: 20px;" *ngIf="isEdit" nz-button [nzLoading]="isConfirmLoading" [nzType]="'primary'">提交</button>
+    </form>
+    <!-- <ul>
+      <li>证明文件: <br> <img src="{{prize.prizeFile}}" alt="图片加载失败" width="400px" height="225px"></li>
+    </ul> -->
+  </nz-card>
+</div>

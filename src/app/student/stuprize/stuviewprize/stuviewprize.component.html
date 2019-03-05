@@ -1,0 +1,43 @@
+<div>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        主页
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        获奖信息
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        查看获奖信息
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
+
+  
+  
+  <div style="margin: 30px;text-align: center;">
+    <nz-table #basicTable
+    [nzData]="prizes"
+    [nzLoading]="_loading"
+    [(nzPageSize)]="_pageSize" 
+    [nzFrontPagination]="true"
+    [(nzPageIndex)]="_current">
+      <thead>
+        <tr>
+          <th>奖项名称</th>
+          <th>奖项类别</th>
+          <th>奖项级别</th>
+          <th>获奖时间</th>
+          <th>审核状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td><a routerLink="../prizedetails/{{ data.prizeId }}">{{data.prizeName}}</a></td>
+          <td>{{data.prizeClass}}</td>
+          <td>{{data.prizeLevel}}</td>
+          <td>{{data.prizeDate}}</td>
+          <td>{{data.status}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>

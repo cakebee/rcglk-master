@@ -1,0 +1,124 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      管理面板
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      用户管理
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-table #basicTable nzShowTotal [nzBordered]="true" [nzLoading]="_loading" [nzData]="users" [nzFrontPagination]="true"
+    [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" >
+    <ng-template #tableTitle>
+      <button nz-button [disabled]="disabledButton" [nzType]="'primary'" [nzLoading]="operating" (click)="operateData()">
+        操作
+      </button>
+      <h3 style="display: inline-block; margin-left: 50px;">用户管理</h3>
+      <button style="margin-left: 40px;" nz-button class="btn" [nzType]="'primary'" (click)="isVisible = true">
+        <span>添加用户</span>
+      </button>
+      <nz-modal [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" (nzOnCancel)="isVisible = false"
+        (nzOnOk)="isVisible = false">
+        <ng-template #modalTitle>
+          添加用户
+        </ng-template>
+        <ng-template #modalContent>
+          <nz-tabset [nzType]="'card'">
+            <!-- <nz-tab>
+                <ng-template #nzTabHeading>
+                  添加单个用户
+                </ng-template>
+                <span>
+                  <form nz-form [formGroup]="stuForm" (ngSubmit)="_submitForm()">
+                    <label>学号:</label>
+                    <nz-input style="width: 300px;" [nzType]="'text'" formControlName="stuId"></nz-input>
+                    <br>
+                    <label>姓名:</label>
+                    <nz-input style="width: 300px;" [nzType]="'text'" formControlName="stuName"></nz-input>
+                    <br>
+                    <label>班级:</label>
+                    <nz-input style="width: 300px;" [nzType]="'text'" formControlName="stuClass"></nz-input>
+                    <br>
+                    <label>政治面貌:</label>
+                    <nz-input style="width: 300px;" [nzType]="'text'" formControlName="stuStatus"></nz-input>
+                    <br>
+                    <button nz-button style="left: 40%;" [nzLoading]="isConfirmLoading" [nzType]="'primary'" [nzSize]="'large'">提交</button>
+                  </form>
+                </span>
+              </nz-tab> -->
+            <nz-tab nzTitle="批量添加用户">
+              <button nz-button style="margin-left: 20px;" nzType="primary" (click)="downloadTemplate()">下载Excel模板</button>
+              <br>
+              <br>
+              <nz-upload style="margin-left: 20px;" nzAction="http://120.78.223.177/rcglk/Excel/readInfo"
+                [(nzFileList)]="fileList" (nzChange)="fileChange($event)" [nzBeforeUpload]="beforeUpload">
+                <input nz-button type="button" value="上传excel文件">
+              </nz-upload>
+              <!-- <button nz-button [nzType]="'primary'" [nzLoading]="uploading" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 20px;">
+                    {{ uploading ? '解析中' : '上传' }}
+                  </button> -->
+            </nz-tab>
+          </nz-tabset>
+        </ng-template>
+      </nz-modal>
+    </ng-template>
+
+    <thead>
+      <tr>
+        <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+        <th nzCustomFilter>
+          学号
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入学号以搜索..." style="width: 150px;" [(ngModel)]="stuId">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzCustomFilter>
+          姓名
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzShowFilter [nzFilters]="filterGender" (nzFilterChange)="searchGenderList=$event;search();">性别</th>
+        <th nzShowFilter [nzFilters]="filterMajor" (nzFilterChange)="searchMajorList=$event;search();">专业</th>
+        <th nzShowFilter [nzFilters]="filterGrade" (nzFilterChange)="searchGradeList=$event;search();">年级</th>
+        <th nzCustomFilter>班级
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入班号以搜索..." style="width: 150px;" [(ngModel)]="stuClass">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <td>{{data.stuId}}</td>
+        <td>{{data.stuName}}</td>
+        <td>{{data.stuGender}}</td>
+        <td>{{data.stuMajor}}</td>
+        <td>{{data.stuGrade}}</td>
+        <td>{{data.stuClass}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

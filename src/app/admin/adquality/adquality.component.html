@@ -1,0 +1,95 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      管理面板
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      用户管理
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-table #basicTable nzShowTotal [nzBordered]="true" [nzLoading]="_loading" [nzData]="qualities" [nzFrontPagination]="true"
+            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" >
+    <ng-template #tableTitle>
+      学生综合素质评价
+      <button style="margin-left: 20px;" nz-button class="btn" [nzType]="'primary'" (click)="refreshQuality()">重新统计</button>
+    </ng-template>
+    <!--<ng-template #tableTitle>
+      <button nz-button [disabled]="disabledButton" [nzType]="'primary'" [nzLoading]="operating" (click)="operateData()">
+        操作
+      </button>
+      <h3 style="display: inline-block; margin-left: 50px;">用户管理</h3>
+      <button style="margin-left: 40px;" nz-button class="btn" [nzType]="'primary'" (click)="isVisible = true">
+        <span>添加用户</span>
+      </button>
+      <nz-modal [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" (nzOnCancel)="isVisible = false"
+                (nzOnOk)="isVisible = false">
+        <ng-template #modalTitle>
+          添加用户
+        </ng-template>
+        <ng-template #modalContent>
+          <nz-tabset [nzType]="'card'">
+            <nz-tab nzTitle="批量添加用户">
+              <button nz-button style="margin-left: 20px;" nzType="primary" (click)="downloadTemplate()">下载Excel模板</button>
+              <br>
+              <br>
+              <nz-upload style="margin-left: 20px;" nzAction="http://120.78.223.177/rcglk/Excel/readInfo"
+                         [(nzFileList)]="fileList" (nzChange)="fileChange($event)" [nzBeforeUpload]="beforeUpload">
+                <input nz-button type="button" value="上传excel文件">
+              </nz-upload>
+              &lt;!&ndash; <button nz-button [nzType]="'primary'" [nzLoading]="uploading" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 20px;">
+                    {{ uploading ? '解析中' : '上传' }}
+                  </button> &ndash;&gt;
+            </nz-tab>
+          </nz-tabset>
+        </ng-template>
+      </nz-modal>
+    </ng-template>-->
+
+    <thead>
+    <tr>
+      <th nzCustomFilter>
+        学号
+        <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+          <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+             nz-dropdown></i>
+          <div class="custom-filter-dropdown">
+            <input type="text" nz-input placeholder="输入学号以搜索..." style="width: 150px;" [(ngModel)]="stuId">
+            <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+          </div>
+        </nz-dropdown>
+      </th>
+      <th nzCustomFilter>
+        姓名
+        <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+          <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+             nz-dropdown></i>
+          <div class="custom-filter-dropdown">
+            <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
+            <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+          </div>
+        </nz-dropdown>
+      </th>
+      <th nzShowFilter [nzFilters]="filterQuality" (nzFilterChange)="searchScientificList=$event;search();">科研能力</th>
+      <th nzShowFilter [nzFilters]="filterQuality" (nzFilterChange)="searchGradeList=$event;search();">在校成绩</th>
+      <th nzShowFilter [nzFilters]="filterQuality" (nzFilterChange)="searchOrgList=$event;search();">组织能力</th>
+      <th nzShowFilter [nzFilters]="filterQuality" (nzFilterChange)="searchQualityList=$event;search();">综合素质</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.stuId}}</td>
+      <td>{{data.stuName}}</td>
+      <td>{{data.q_scientific}}</td>
+      <td>{{data.q_grade}}</td>
+      <td>{{data.q_org}}</td>
+      <td>{{data.quality}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,25 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="../../org">组织活动管理</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      组织(活动)详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-card style="width:800px;" nzTitle="组织(活动)详情信息">
+    <ul>
+      <li>组织(活动)名称: {{org.orgName}}</li>
+      <li>组织(活动)类别: {{org.orgClass}}</li>
+      <li>职责: {{org.orgDuty}}</li>
+      <li>活动时段: {{org.orgBegin}} 至 {{org.orgEnd}}</li>
+      <li>说明: {{org.orgIntro}}</li>
+    </ul>
+  </nz-card>
+</div>

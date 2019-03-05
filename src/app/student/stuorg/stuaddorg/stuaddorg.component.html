@@ -1,0 +1,52 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      组织活动经历
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      添加组织活动经历
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<div style="margin: 30px">
+  <form nz-form [formGroup]="orgForm" (ngSubmit)="_submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" nzRequired>组织(活动)类别</nz-form-label>
+      <nz-form-control>
+        <nz-select style="width: 300px;" formControlName="orgClass" nzAllowClear>
+          <nz-option *ngFor="let option of typeList" [nzLabel]="option" [nzValue]="option"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" nzRequired>组织(活动)名称</nz-form-label>
+      <nz-form-control>
+        <input style="width: 300px;" formControlName="orgName" nz-input>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" nzRequired>担任职责</nz-form-label>
+      <nz-form-control>
+        <input style="width: 300px;" formControlName="orgDuty" nz-input>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" nzRequired>参与日期</nz-form-label>
+      <nz-form-control>
+        <nz-date-picker formControlName="orgBegin"></nz-date-picker>
+        至
+        <nz-date-picker formControlName="orgEnd"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2">说明</nz-form-label>
+      <nz-form-control>
+        <textarea rows="6" style="width: 400px;" formControlName="orgIntro" nz-input></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading">提交</button>
+  </form>
+</div>

@@ -1,0 +1,87 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      学生信息
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div class="box">
+  <nz-card style="width: 40%" nzTitle="基本信息">
+    <form nz-form [formGroup]="stuForm" class="login-form">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="学号">
+            <input formControlName="stuId" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="姓名">
+            <input formControlName="stuName" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="性别">
+            <input formControlName="stuGender" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="专业">
+            <input formControlName="stuMajor" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="班级">
+            <input formControlName="stuClass" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="政治面貌">
+            <input formControlName="stuStatus" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+
+  <nz-card style="width: 40%" nzTitle="详细信息">
+    <form nz-form [formGroup]="stuForm" class="login-form" (ngSubmit)="_submitForm()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="手机">
+            <input formControlName="stuTel" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="QQ">
+            <input formControlName="stuQq" nz-input>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzAddOnBefore="个人说明">
+            <textarea rows="6" formControlName="stuIntro" nz-input></textarea>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <input type="button" nz-button style="margin: 20px;" [nzType]="'primary'" (click)="modify()" value="修改">
+      <button style="margin: 20px;" *ngIf="isModify" nz-button [nzLoading]="isConfirmLoading" [nzType]="'primary'">提交</button>
+    </form>
+  </nz-card>
+</div>

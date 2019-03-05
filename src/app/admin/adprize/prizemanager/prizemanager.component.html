@@ -1,0 +1,81 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      获奖信息管理
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="prizes" [nzFrontPagination]="true"
+    [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current">
+    <ng-template #tableTitle>
+      奖项信息汇总
+      <button style="margin-left: 20px;" nz-button class="btn" [nzType]="'primary'" (click)="downloadTemplate()">下载Excel模板</button>
+      <nz-upload style="margin-left: 20px;" [nzShowUploadList]="false" (nzChange)="fileChange($event)" nzAction="http://120.78.223.177/rcglk/Excel/readPrize">
+        <button nz-button>
+          <i class="anticon anticon-upload"></i>从Excel导入奖项
+        </button>
+      </nz-upload>
+      <button nz-button style="float: right;" nzType="primary" (click)="exportExcel()">导出至Excel</button>
+    </ng-template>
+
+    <thead>
+      <tr>
+        <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+        <th nzCustomFilter>
+          奖项名称
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入名称以搜索..." style="width: 150px;" [(ngModel)]="prizeName">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzCustomFilter>
+          获奖人学号
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入学号以搜索..." style="width: 150px;" [(ngModel)]="stuId">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzCustomFilter>
+          获奖人姓名
+          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="custom-filter-dropdown">
+              <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
+              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th>奖项类别</th>
+        <th nzShowFilter [nzFilters]="filterLevel" (nzFilterChange)="searchLevelList=$event;search();">奖项级别</th>
+        <th nzShowFilter [nzFilters]="filterStatus" (nzFilterChange)="searchStatusList=$event;search();">审核状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <td>
+          <a routerLink="../prizecheck/{{data.prizeId}}">{{data.prizeName}}</a>
+        </td>
+        <td>{{data.stuId}}</td>
+        <td>{{data.stuName}}</td>
+        <td>{{data.prizeClass}}</td>
+        <td>{{data.prizeLevel}}</td>
+        <td>{{data.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
