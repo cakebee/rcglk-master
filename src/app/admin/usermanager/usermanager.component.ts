@@ -15,7 +15,8 @@ export class UsermanagerComponent implements OnInit {
   usersList = [];
   _loading = true;
   _current = 1;
-  _pageSize = 8;
+  _pageSize = 10;
+  _total = 0;
   isConfirmLoading: boolean = false;
   isVisible: boolean = false;
   stuForm: FormGroup;
@@ -102,6 +103,14 @@ export class UsermanagerComponent implements OnInit {
     // this.uploading = true;
   }
 
+  changePageIndex(){
+    this.getUsers();
+  }
+
+  changePageSize() {
+    this.getUsers();
+  }
+
   getUsers() {
     this._loading = true;
     let xhr = new XMLHttpRequest();
@@ -109,11 +118,13 @@ export class UsermanagerComponent implements OnInit {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
           if (JSON.parse(xhr.responseText).code == "100") {
-            let resUsers = JSON.parse(xhr.responseText).extend.list;
+            let resUsers = JSON.parse(xhr.responseText).extend.pageBean.list;
+            //this._pageSize = JSON.parse(xhr.responseText).extend.pageBean.pageSize;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
             this.usersList = [];
             resUsers.forEach(element => {
               element.stuGrade = element.stuClass.slice(0, 4);
-              this.usersList.push(element)
+              this.usersList.push(element);
             });
             this.users = this.usersList;
             this._loading = false;
@@ -128,7 +139,7 @@ export class UsermanagerComponent implements OnInit {
         }
       }
     };
-    xhr.open('GET', `${domain}/Studentsinfos`);
+    xhr.open('GET', `${domain}/Studentsinfos?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr.send();
   }
 

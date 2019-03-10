@@ -210,7 +210,7 @@ export class PrizemanagerComponent implements OnInit {
       this.refreshStatus();
       this.operating = false;
     }, 1000);
-    
+
   }
 
   constructor() { }

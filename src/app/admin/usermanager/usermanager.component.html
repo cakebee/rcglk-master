@@ -13,8 +13,9 @@
 </div>
 
 <div style="margin: 30px;">
-  <nz-table #basicTable nzShowTotal [nzBordered]="true" [nzLoading]="_loading" [nzData]="users" [nzFrontPagination]="true"
-    [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" >
+  <nz-table #basicTable [nzTotal]="_total" [nzBordered]="true" [nzLoading]="_loading" [nzData]="users" [nzFrontPagination]="false"
+            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowQuickJumper]="true" [nzShowSizeChanger]="true"
+            (nzPageIndexChange)="changePageIndex()" (nzPageSizeChange)="changePageSize()">
     <ng-template #tableTitle>
       <button nz-button [disabled]="disabledButton" [nzType]="'primary'" [nzLoading]="operating" (click)="operateData()">
         操作
