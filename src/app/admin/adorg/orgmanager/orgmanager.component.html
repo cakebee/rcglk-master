@@ -10,12 +10,17 @@
 </div>
 
 <div style="margin: 30px;">
-  <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="orgs" [(nzPageSize)]="_pageSize"
-    [nzFrontPagination]="true" [nzTitle]="tableTitle" [(nzPageIndex)]="_current">
+  <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="orgs" [(nzPageSize)]="_pageSize" [nzTotal]="_total"
+            [nzFrontPagination]="false" [nzTitle]="tableTitle" [(nzPageIndex)]="_current" [nzShowSizeChanger]="true" [nzShowQuickJumper]="true"
+            (nzPageIndexChange)="getorgs()" (nzPageSizeChange)="getorgs()" [nzShowTotal]="totalTemplate">
+    <ng-template #totalTemplate let-total>
+      共{{total}}条记录
+    </ng-template>
     <ng-template #tableTitle>
       组织活动信息汇总
       <button nz-button style="margin-left: 20px;" nzType="primary" (click)="downloadTemplate()">下载Excel模板</button>
-      <nz-upload style="margin-left: 20px;" [nzShowUploadList]="false" (nzChange)="fileChange($event)" nzAction="http://120.78.223.177/rcglk/Excel/readOrg">
+      <nz-upload style="margin-left: 20px;" [nzShowUploadList]="false" (nzChange)="fileChange($event)"
+                 nzAction="http://120.78.223.177/rcglk/Excel/readOrg">
         <button nz-button>
           <i class="anticon anticon-upload"></i>从Excel导入经历
         </button>
@@ -23,70 +28,71 @@
       <button nz-button style="float: right;" nzType="primary" (click)="exportExcel()">导出至Excel</button>
     </ng-template>
     <thead>
-      <tr>
-        <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
-        <th nzCustomFilter>
-          组织(活动)名称
-          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
-            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-              nz-dropdown></i>
-            <div class="custom-filter-dropdown">
-              <input type="text" nz-input placeholder="输入名称以搜索..." style="width: 150px;" [(ngModel)]="orgName">
-              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
-            </div>
-          </nz-dropdown>
-        </th>
-        <th nzCustomFilter>
-          参与人学号
-          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
-            <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-              nz-dropdown></i>
-            <div class="custom-filter-dropdown">
-              <input type="text" nz-input placeholder="输入学号以搜索..." style="width: 150px;" [(ngModel)]="stuId">
-              <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
-            </div>
-          </nz-dropdown>
-        </th>
-        <th nzCustomFilter>
-          参与人姓名
-          <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+    <tr>
+      <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="checkAll($event)"></th>
+      <th nzCustomFilter>
+        组织(活动)名称
+        <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+          <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+             nz-dropdown></i>
+          <div class="custom-filter-dropdown">
+            <input type="text" nz-input placeholder="输入名称以搜索..." style="width: 150px;" [(ngModel)]="orgName">
+            <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+          </div>
+        </nz-dropdown>
+      </th>
+      <th nzCustomFilter>
+        参与人学号
+        <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+          <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+             nz-dropdown></i>
+          <div class="custom-filter-dropdown">
+            <input type="text" nz-input placeholder="输入学号以搜索..." style="width: 150px;" [(ngModel)]="stuId">
+            <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+          </div>
+        </nz-dropdown>
+      </th>
+      <th nzCustomFilter>
+        参与人姓名
+        <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
+          <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+             nz-dropdown></i>
+          <div class="custom-filter-dropdown">
+            <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
+            <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+          </div>
+        </nz-dropdown>
+      </th>
+      <th>
+        组织(活动)类别
+      </th>
+      <th nzCustomFilter>
+        起止时间
+        <!-- <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
             <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
               nz-dropdown></i>
             <div class="custom-filter-dropdown">
               <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
               <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
             </div>
-          </nz-dropdown>
-        </th>
-        <th>
-          组织(活动)类别
-        </th>
-        <th nzCustomFilter>
-          起止时间
-          <!-- <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
-              <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-                nz-dropdown></i>
-              <div class="custom-filter-dropdown">
-                <input type="text" nz-input placeholder="输入姓名以搜索..." style="width: 150px;" [(ngModel)]="stuName">
-                <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
-              </div>
-            </nz-dropdown> -->
-        </th>
-        <th>职责</th>
-      </tr>
+          </nz-dropdown> -->
+      </th>
+      <th>职责</th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
-        <td>
-          <a routerLink="../orgcheck/{{data.orgId}}">{{data.orgName}}</a>
-        </td>
-        <td>{{data.stuId}}</td>
-        <td>{{data.stuName}}</td>
-        <td>{{data.orgClass}}</td>
-        <td>{{data.orgBegin}} 至 {{data.orgEnd}}</td>
-        <td>{{data.orgDuty}}</td>
-      </tr>
+    <tr *ngFor="let data of basicTable.data">
+      <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+      <td>
+        <a routerLink="../orgcheck/{{data.orgId}}">{{data.orgName}}</a>
+      </td>
+      <td>{{data.stuId}}</td>
+      <td>{{data.stuName}}</td>
+      <td>{{data.orgClass}}</td>
+      <td>{{data.orgBegin}} 至 {{data.orgEnd}}</td>
+      <td>{{data.orgDuty}}</td>
+    </tr>
     </tbody>
   </nz-table>
 </div>

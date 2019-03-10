@@ -14,7 +14,8 @@ export class OrgmanagerComponent implements OnInit {
   orgLists: Array<any> = [];
   orgs: Array<any> = [];
   _current = 1;
-  _pageSize = 8;
+  _pageSize = 10;
+  _total = 0;
   _loading: boolean = true;
   
   orgName: string;
@@ -34,7 +35,8 @@ export class OrgmanagerComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          let resOrgs = JSON.parse(xhr.responseText).extend.list;
+          let resOrgs = JSON.parse(xhr.responseText).extend.pageBean.list;
+          this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
           for (var i in resOrgs) {
             resOrgs[i].orgBegin = dateTrans(resOrgs[i].orgBegin);
             resOrgs[i].orgEnd = dateTrans(resOrgs[i].orgEnd);
@@ -47,7 +49,7 @@ export class OrgmanagerComponent implements OnInit {
         }
       }
     }
-    xhr.open('get', `${domain}/Studentsorg`);
+    xhr.open('get', `${domain}/Studentsorg?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr.send();
   }
 

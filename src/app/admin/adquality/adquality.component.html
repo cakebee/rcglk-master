@@ -13,44 +13,16 @@
 </div>
 
 <div style="margin: 30px;">
-  <nz-table #basicTable nzShowTotal [nzBordered]="true" [nzLoading]="_loading" [nzData]="qualities" [nzFrontPagination]="true"
-            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" >
+  <nz-table #basicTable [nzTotal]="_total" [nzBordered]="true" [nzLoading]="_loading" [nzData]="qualities" [nzFrontPagination]="false"
+            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowSizeChanger]="true" [nzShowQuickJumper]="true"
+            (nzPageIndexChange)="getQuality()" (nzPageSizeChange)="getQuality()" [nzShowTotal]="totalTemplate">
+    <ng-template #totalTemplate let-total>
+      共{{total}}条记录
+    </ng-template>
     <ng-template #tableTitle>
       学生综合素质评价
       <button style="margin-left: 20px;" nz-button class="btn" [nzType]="'primary'" (click)="refreshQuality()">重新统计</button>
     </ng-template>
-    <!--<ng-template #tableTitle>
-      <button nz-button [disabled]="disabledButton" [nzType]="'primary'" [nzLoading]="operating" (click)="operateData()">
-        操作
-      </button>
-      <h3 style="display: inline-block; margin-left: 50px;">用户管理</h3>
-      <button style="margin-left: 40px;" nz-button class="btn" [nzType]="'primary'" (click)="isVisible = true">
-        <span>添加用户</span>
-      </button>
-      <nz-modal [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" (nzOnCancel)="isVisible = false"
-                (nzOnOk)="isVisible = false">
-        <ng-template #modalTitle>
-          添加用户
-        </ng-template>
-        <ng-template #modalContent>
-          <nz-tabset [nzType]="'card'">
-            <nz-tab nzTitle="批量添加用户">
-              <button nz-button style="margin-left: 20px;" nzType="primary" (click)="downloadTemplate()">下载Excel模板</button>
-              <br>
-              <br>
-              <nz-upload style="margin-left: 20px;" nzAction="http://120.78.223.177/rcglk/Excel/readInfo"
-                         [(nzFileList)]="fileList" (nzChange)="fileChange($event)" [nzBeforeUpload]="beforeUpload">
-                <input nz-button type="button" value="上传excel文件">
-              </nz-upload>
-              &lt;!&ndash; <button nz-button [nzType]="'primary'" [nzLoading]="uploading" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 20px;">
-                    {{ uploading ? '解析中' : '上传' }}
-                  </button> &ndash;&gt;
-            </nz-tab>
-          </nz-tabset>
-        </ng-template>
-      </nz-modal>
-    </ng-template>-->
-
     <thead>
     <tr>
       <th nzCustomFilter>

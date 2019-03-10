@@ -16,7 +16,8 @@ export class AdqualityComponent implements OnInit {
   qualityList: any;
   _loading = true;
   _current = 1;
-  _pageSize = 8;
+  _pageSize = 10;
+  _total = 0;
   tableTitle = "学生综合素质";
   isConfirmLoading: boolean = false;
   isVisible: boolean = false;
@@ -50,9 +51,10 @@ export class AdqualityComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          if (JSON.parse(xhr.responseText).code == "100") {
-            this.qualityList = JSON.parse(xhr.responseText).extend.studentQualityList;
+          if (JSON.parse(xhr.responseText).code == '100') {
+            this.qualityList = JSON.parse(xhr.responseText).extend.pageBean.list;
             this.qualities = this.qualityList;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
             this._loading = false;
           }
           else {
@@ -65,7 +67,7 @@ export class AdqualityComponent implements OnInit {
         }
       }
     };
-    xhr.open('GET', `${domain}/StudentQuality`);
+    xhr.open('GET', `${domain}/StudentQuality?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr.send();
   }
 
@@ -74,9 +76,10 @@ export class AdqualityComponent implements OnInit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          if (JSON.parse(xhr.responseText).code == "100") {
-            this.qualityList = JSON.parse(xhr.responseText).extend.studentQualityList;
+          if (JSON.parse(xhr.responseText).code == '100') {
+            this.qualityList = JSON.parse(xhr.responseText).extend.pageBean.list;
             this.qualities = this.qualityList;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
             this._loading = false;
           }
           else {
@@ -89,7 +92,7 @@ export class AdqualityComponent implements OnInit {
         }
       }
     };
-    xhr.open('GET', `${domain}/RefreshStudentQuality`);
+    xhr.open('GET', `${domain}/RefreshStudentQuality?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr.send();
   }
 

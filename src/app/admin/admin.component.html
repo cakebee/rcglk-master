@@ -5,26 +5,29 @@
     <a class="logout" (click)="logout()">退出登录</a>
   </nz-header>
   <nz-content style="padding:25px 50px 10px 50px">
-    <ul nz-menu [nzMode]="'horizontal'">
-      <li nz-menu-item routerLink="./user">
-        <i class="anticon anticon-user"></i> 用户管理
-      </li>
-      <li nz-menu-item routerLink="./prize">
-        <i class="anticon anticon-star"></i> 奖项管理
-        <nz-badge [nzCount]="prizeBadge" class="badge-righttop"></nz-badge>
-      </li>
+    <nz-affix>
+      <ul nz-menu [nzMode]="'horizontal'">
+        <li nz-menu-item routerLink="./user">
+          <i class="anticon anticon-user"></i> 用户管理
+        </li>
+        <li nz-menu-item routerLink="./prize">
+          <i class="anticon anticon-star"></i> 奖项管理
+          <nz-badge [nzCount]="prizeBadge" class="badge-righttop"></nz-badge>
+        </li>
 
-      <li nz-menu-item routerLink="./org">
-        <i class="anticon anticon-heart"></i> 组织活动管理
-      </li>
+        <li nz-menu-item routerLink="./org">
+          <i class="anticon anticon-heart"></i> 组织活动管理
+        </li>
 
-      <li nz-menu-item routerLink="./essay">
-        <i nz-icon type="book"></i> 论文管理
-      </li>
-      <li nz-menu-item routerLink="./quality">
-        <i class="anticon anticon-fund"></i> 综合素质
-      </li>
-    </ul>
+        <li nz-menu-item routerLink="./essay">
+          <i nz-icon type="book"></i> 论文管理
+        </li>
+        <li nz-menu-item routerLink="./quality">
+          <i class="anticon anticon-fund"></i> 综合素质
+        </li>
+      </ul>
+    </nz-affix>
+
     <div style="background:#fff; padding: 24px; min-height: 400px;">
       <router-outlet (activate)="getBadge($event)"></router-outlet>
     </div>
