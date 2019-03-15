@@ -37,6 +37,7 @@ import { AdessayComponent } from './admin/adessay/adessay.component';
 import { EssaymanagerComponent } from './admin/adessay/essaymanager/essaymanager.component';
 import { DoLoginComponent } from './login/do-login/do-login.component';
 import { AdqualityComponent } from './admin/adquality/adquality.component';
+import { QualitydetailComponent } from './admin/adquality/qualitydetail/qualitydetail.component';
 
 registerLocaleData(zh);
 
@@ -70,6 +71,7 @@ registerLocaleData(zh);
     EssaymanagerComponent,
     DoLoginComponent,
     AdqualityComponent,
+    QualitydetailComponent,
   ],
   imports: [
     BrowserModule,

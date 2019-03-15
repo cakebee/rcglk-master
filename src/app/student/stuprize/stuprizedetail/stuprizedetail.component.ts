@@ -24,7 +24,11 @@ export class StuprizedetailComponent implements OnInit {
   }
 
   createForm() {
-    this.prize = new Prize({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
+    this.prize = new Prize({ value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true },{ value: '', disabled: true },
+    { value: '', disabled: true }, { value: '', disabled: true },{ value: '', disabled: true });
     this.prizeForm = this.fb.group(this.prize);
   }
 

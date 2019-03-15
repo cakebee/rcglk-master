@@ -10,10 +10,54 @@
 </div>
 
 <div style="margin: 30px;">
+  <div>
+    <nz-input-group [nzAddOnBefore]="'奖项名'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="prize.prizeName">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'学号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="prize.stuId">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'姓名'" style="width: 170px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="prize.stuName">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'获奖类别'" style="width: 250px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="prize.prizeClass">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'获奖等级'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-select [(ngModel)]="prize.prizeLevel" style="width: 50%">
+        <nz-option *ngFor="let level of filterLevel" [nzLabel]="level.text" [nzValue]="level.value"></nz-option>
+      </nz-select>
+      <nz-select [(ngModel)]="prize.prizeLevel2" style="width: 50%">
+        <nz-option *ngFor="let level2 of filterLevel2" [nzLabel]="level2.text" [nzValue]="level2.value"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <br>
+    <nz-input-group [nzAddOnBefore]="'获奖日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="prize.prizeDateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="prize.prizeDateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'提交日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="prize.submitDateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="prize.submitDateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'审核日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="prize.reviewDateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="prize.reviewDateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
+    <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">
+      <span>模糊搜索</span>
+    </button>
+    <button nz-button nzType="danger" (click)="resetInput()">
+      <span>清空</span>
+    </button>
+  </div>
+
+
   <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="prizes" [nzFrontPagination]="false"
             [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzTotal]="_total"
             [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" [nzShowTotal]="totalTemplate"
-            (nzPageSizeChange)="getprizes()" (nzPageIndexChange)="getprizes()">
+            (nzPageSizeChange)="getPage()" (nzPageIndexChange)="getPage()">
     <ng-template #totalTemplate let-total>
       共{{total}}条记录
     </ng-template>
@@ -70,7 +114,10 @@
       </th>
       <th>奖项类别</th>
       <th nzShowFilter [nzFilters]="filterLevel" (nzFilterChange)="searchLevelList=$event;search();">奖项级别</th>
+      <th>奖项等级</th>
       <th nzShowFilter [nzFilters]="filterStatus" (nzFilterChange)="searchStatusList=$event;search();">审核状态</th>
+      <th>提交时间</th>
+      <th>审核时间</th>
     </tr>
     </thead>
     <tbody>
@@ -83,7 +130,10 @@
       <td>{{data.stuName}}</td>
       <td>{{data.prizeClass}}</td>
       <td>{{data.prizeLevel}}</td>
+      <td>{{data.prizeLevel2}}</td>
       <td>{{data.status}}</td>
+      <td>{{data.submitDate}}</td>
+      <td>{{data.reviewDate}}</td>
     </tr>
     </tbody>
   </nz-table>

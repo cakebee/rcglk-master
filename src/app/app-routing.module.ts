@@ -25,6 +25,7 @@ import { EssaymanagerComponent } from './admin/adessay/essaymanager/essaymanager
 import { StudentGuard } from './guard/student.guard'
 import { from } from 'rxjs';
 import {AdqualityComponent} from './admin/adquality/adquality.component';
+import {QualitydetailComponent} from './admin/adquality/qualitydetail/qualitydetail.component';
 
 
 const routes: Routes = [
@@ -109,6 +110,10 @@ const routes: Routes = [
       {
         path: 'quality',
         component: AdqualityComponent
+      },
+      {
+        path: 'qualitydetail/:id',
+        component: QualitydetailComponent
       }
     ]
   },

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { dateTrans } from '../../../data.model';
+import {dateTrans, Org} from '../../../data.model';
 import * as XLSX from 'xlsx';
 import { domain } from '../../../config';
 
@@ -17,7 +17,8 @@ export class OrgmanagerComponent implements OnInit {
   _pageSize = 10;
   _total = 0;
   _loading: boolean = true;
-  
+  isFuzzy: boolean = false;
+  orgSearch: any;
   orgName: string;
   stuId: string;
   stuName: string;
@@ -134,9 +135,63 @@ export class OrgmanagerComponent implements OnInit {
     
   }
 
+  createOrgSearch(): void {
+    this.orgSearch = new Org('', '', '', '', '', '');
+    this.orgSearch.stuId = '';
+    this.orgSearch.stuName = '';
+    this.orgSearch.orgClass = '';
+    this.orgSearch.orgType = '';
+    this.orgSearch.orgBegin = '';
+    this.orgSearch.orgEnd = '';
+    this.orgSearch.honor = '';
+    this.orgSearch.submitDateBegin = '';
+    this.orgSearch.submitDateEnd = '';
+    this.orgSearch.reviewDateBegin = '';
+    this.orgSearch.reviewDateEnd = '';
+  }
+
+  fuzzySearch(): void {
+    this._loading = true;
+    const list = [];
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          let resOrgs = JSON.parse(xhr.responseText).extend.pageBean.list;
+          this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
+          for (var i in resOrgs) {
+            resOrgs[i].orgBegin = dateTrans(resOrgs[i].orgBegin);
+            resOrgs[i].orgEnd = dateTrans(resOrgs[i].orgEnd);
+            list.push(resOrgs[i]);
+          }
+          this.orgs = list;
+          this._loading = false;
+        } else {
+          alert("获取数据失败，请稍后再试...");
+        }
+      }
+    }
+    xhr.open('post', `${domain}/Studentsorg/_search?pageNum=${this._current}&pageSize=${this._pageSize}`);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.send(JSON.stringify(this.orgSearch));
+  }
+
+  resetInput(): void {
+    this.createOrgSearch();
+  }
+
+  getPage(): void {
+    if (this.isFuzzy){
+      this.fuzzySearch();
+    } else {
+      this.getorgs();
+    }
+  }
+
   constructor() { }
 
   ngOnInit() {
     this.getorgs();
+    this.createOrgSearch();
   }
 }

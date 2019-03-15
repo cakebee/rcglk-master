@@ -20,7 +20,10 @@ export class StuinfoComponent implements OnInit {
   }
 
   createForm() {
-    this.stu = new Student({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
+    this.stu = new Student({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true},
+    { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
     this.stuForm = this.fb.group(this.stu);
   }
 

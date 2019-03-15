@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {dateTrans, statusTrans, prizeLevelList} from '../../../data.model';
+import {dateTrans, statusTrans, prizeLevelList, Prize} from '../../../data.model';
 import * as XLSX from 'xlsx';
 import {domain} from '../../../config';
 
@@ -15,10 +15,11 @@ export class PrizemanagerComponent implements OnInit {
   _current = 1;
   _pageSize = 10;
   _total;
-
+  prize: any;
   prizeName: string;
   stuId: string;
   stuName: string;
+  isFuzzy: boolean = false;//是否模糊搜索
   filterLevel = [
     {text: '国际级', value: '国际级'},
     {text: '国家级', value: '国家级'},
@@ -26,6 +27,12 @@ export class PrizemanagerComponent implements OnInit {
     {text: '市级', value: '市级'},
     {text: '校级', value: '校级'}
   ];
+  filterLevel2 = [
+    {text : '一等奖', value: '一等奖'},
+    {text : '二等奖', value: '二等奖'},
+    {text : '三等奖', value: '三等奖'},
+    {text : '其他', value: '其他'},
+  ]
   searchLevelList: Array<string> = [];
   filterStatus = [
     {text: '审核通过', value: '审核通过'},
@@ -57,7 +64,7 @@ export class PrizemanagerComponent implements OnInit {
       configurable: true
     });
     ajaxMonitor.num = 0;*/
-
+    this._loading = true;
     this.prizesList = [];
     let xhr1 = new XMLHttpRequest();
     xhr1.onreadystatechange = () => {
@@ -67,6 +74,8 @@ export class PrizemanagerComponent implements OnInit {
           this._total = JSON.parse(xhr1.responseText).extend.pageBean.total;
           for (var i in resPrizes) {
             resPrizes[i].prizeDate = dateTrans(resPrizes[i].prizeDate);
+            resPrizes[i].submitDate = dateTrans(resPrizes[i].submitDate);
+            resPrizes[i].reviewDate = dateTrans(resPrizes[i].reviewDate);
             resPrizes[i].status = statusTrans(resPrizes[i].status);
             this.prizesList.push(resPrizes[i]);
           }
@@ -180,11 +189,65 @@ export class PrizemanagerComponent implements OnInit {
 
   }
 
+  createPrize(): void {
+    this.prize = new Prize('', '', '', '', '', '' ,
+      '',  '', '', '', '', '', '', '');
+    this.prize.prizeDateBegin = '';
+    this.prize.prizeDateEnd = '';
+    this.prize.submitDateBegin = '';
+    this.prize.submitDateEnd = '';
+    this.prize.reviewDateBegin = '';
+    this.prize.reviewDateEnd = '';
+  }
+
+  fuzzySearch(): void {
+    this._loading = true;
+    let list = [];
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          let resPrizes = JSON.parse(xhr.responseText).extend.pageBean.list;
+          this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
+          for (var i in resPrizes) {
+            resPrizes[i].prizeDate = dateTrans(resPrizes[i].prizeDate);
+            resPrizes[i].submitDate = dateTrans(resPrizes[i].submitDate);
+            resPrizes[i].reviewDate = dateTrans(resPrizes[i].reviewDate);
+            resPrizes[i].status = statusTrans(resPrizes[i].status);
+            list.push(resPrizes[i]);
+          }
+        } else {
+          alert('获取数据失败，请稍后再试...');
+        }
+      }
+      this.prizes = list;
+      this._loading = false;
+    };
+
+    xhr.open('post', `${domain}/Studentsprize/_search?pageNum=${this._current}&pageSize=${this._pageSize}`);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.send(JSON.stringify(this.prize));
+  }
+
+  getPage(): void {
+    if (this.isFuzzy){
+      this.fuzzySearch();
+    } else {
+      this.getprizes();
+    }
+  }
+
+  resetInput(): void {
+    this.createPrize();
+    this.isFuzzy = false;
+    this.getprizes();
+  }
   constructor() {
   }
 
   ngOnInit() {
     this.getprizes();
+    this.createPrize();
   }
 
 }

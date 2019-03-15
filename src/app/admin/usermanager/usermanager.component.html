@@ -13,11 +13,76 @@
 </div>
 
 <div style="margin: 30px;">
+  <div>
+    <nz-input-group [nzAddOnBefore]="'学号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuId">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'姓名'" style="width: 150px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuName">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'性别'" style="width: 100px; margin: 0 20px 20px 0">
+      <nz-select [(ngModel)]="student.stuGender">
+        <nz-option [nzLabel]="'空'" [nzValue]="''"></nz-option>
+        <nz-option [nzLabel]="'男'" [nzValue]="'男'"></nz-option>
+        <nz-option [nzLabel]="'女'" [nzValue]="'女'"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'专业'" style="width: 250px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuMajor">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'年级'" style="width: 150px; margin: 0 20px 20px 0">
+      <input nz-input>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'班级'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuClass">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'年龄'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuAge">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'身份证号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.identity">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'宿舍'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuDorm">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'QQ号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuQq">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'手机号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuTel">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'社会面貌'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuStatus">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'家庭住址'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuHome">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'平均绩点'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="student.stuGpa">
+    </nz-input-group>
+    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
+    <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">
+      <span>模糊搜索</span>
+    </button>
+    <button nz-button nzType="danger" (click)="resetInput()">
+      <span>清空</span>
+    </button>
+  </div>
+
+  <!--<form nz-form nzLayout="'inline'">
+    <nz-form-item>
+      <nz-form-label [nzSm]="1" [nzXs]="0" nzFor="this">学号</nz-form-label>
+      <nz-form-control [nzSm]="0" [nzXs]="0" >
+        <input nz-input id="this" formControlName="studentId" name="studentId"  style="width: 200px;">
+      </nz-form-control>
+    </nz-form-item>
+  </form>-->
+
   <nz-table #basicTable [nzTotal]="_total" [nzBordered]="true" [nzLoading]="_loading" [nzData]="users"
             [nzFrontPagination]="false"
             [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowQuickJumper]="true"
             [nzShowSizeChanger]="true"
-            (nzPageIndexChange)="changePageIndex()" (nzPageSizeChange)="changePageSize()" [nzShowTotal]="totalTemplate">
+            (nzPageIndexChange)="getPage()" (nzPageSizeChange)="getPage()" [nzShowTotal]="totalTemplate">
     <ng-template #totalTemplate let-total>
       共{{total}}条记录
     </ng-template>
@@ -79,10 +144,10 @@
     </ng-template>
 
     <thead>
-
     <tr>
       <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-          (nzCheckedChange)="checkAll($event)"></th>
+          (nzCheckedChange)="checkAll($event)">
+      </th>
       <th nzCustomFilter>
         学号
         <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
@@ -118,9 +183,11 @@
           </div>
         </nz-dropdown>
       </th>
+      <th nzShowExpand nzexpand="true" style="width: 70px">详情</th>
     </tr>
     </thead>
-    <tbody>
+
+    <!--<tbody>
     <tr *ngFor="let data of basicTable.data">
       <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
       <td>{{data.stuId}}</td>
@@ -129,7 +196,81 @@
       <td>{{data.stuMajor}}</td>
       <td>{{data.stuGrade}}</td>
       <td>{{data.stuClass}}</td>
+      <td nzShowExpand nzExpand="true" ></td>
+    </tr>
+    </tbody>-->
+
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="basicTable.data">
+      <tr>
+        <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <td>{{data.stuId}}</td>
+        <td>{{data.stuName}}</td>
+        <td>{{data.stuGender}}</td>
+        <td>{{data.stuMajor}}</td>
+        <td>{{data.stuGrade}}</td>
+        <td>{{data.stuClass}}</td>
+        <td nzShowExpand [(nzExpand)]="data.isExpanded"></td>
+      </tr>
+
+      <tr [nzExpand]="data.isExpanded">
+        <td></td>
+        <td colspan="8">
+          <nz-table #innerTable [nzData]="users" nzSize="small" nzShowPagination="false">
+    <thead>
+    <tr>
+      <th>政治面貌</th>
+      <th>宿舍</th>
+      <th>手机号</th>
+      <th>QQ号</th>
+      <th>年龄</th>
+      <th>家庭住址</th>
+      <th>平均绩点</th>
+      <th>身份证号</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td>{{data.stuStatus}}</td>
+      <td>{{data.stuDorm}}</td>
+      <td>{{data.stuTel}}</td>
+      <td>{{data.stuQq}}</td>
+      <td>{{data.stuAge}}</td>
+      <td>{{data.stuHome}}</td>
+      <td>{{data.stuGpa}}</td>
+      <td>{{data.identity}}</td>
     </tr>
     </tbody>
   </nz-table>
+  </td>
+  </tr>
+  </ng-template>
+
+  </tbody>
+
+  </nz-table>
+
+  <!--<nz-table #basicTable [nzData]="users">
+    <thead>
+    <tr>
+      <th nzShowExpand></th>
+      <th>name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="basicTable.data">
+      <tr>
+        <td nzShowExpand nzexpand="true"></td>
+        <td>{{data.stuId}}</td>
+      </tr>
+      <tr nzExpand="true">
+        <td></td>
+        <nz-table #innerTable [nzData]="users" nzShowPagination="false" nzSize="middle">
+
+        </nz-table>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>-->
 </div>

@@ -47,6 +47,7 @@ export class AdqualityComponent implements OnInit {
   constructor() { }
 
   getQuality(): void{
+    this._loading = true;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
@@ -59,6 +60,7 @@ export class AdqualityComponent implements OnInit {
           }
           else {
             alert("请求失败，稍后再试...")
+            this._loading = false;
           }
         }
         else {
@@ -72,6 +74,7 @@ export class AdqualityComponent implements OnInit {
   }
 
   refreshQuality(): void {
+    this._loading = true;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
@@ -84,6 +87,7 @@ export class AdqualityComponent implements OnInit {
           }
           else {
             alert("请求失败，稍后再试...")
+            this._loading = false;
           }
         }
         else {
@@ -92,6 +96,7 @@ export class AdqualityComponent implements OnInit {
         }
       }
     };
+    this._loading = false;
     xhr.open('GET', `${domain}/RefreshStudentQuality?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr.send();
   }

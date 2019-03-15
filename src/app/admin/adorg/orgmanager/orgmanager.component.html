@@ -10,9 +10,48 @@
 </div>
 
 <div style="margin: 30px;">
+
+  <div>
+    <nz-input-group [nzAddOnBefore]="'学号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="orgSearch.stuId">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'组织名'" style="width: 150px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="orgSearch.orgName">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'姓名'" style="width: 170px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="orgSearch.stuName">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'职责'" style="width: 250px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="orgSearch.orgDuty">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'类型'" style="width: 300px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="orgSearch.orgClass">
+    </nz-input-group>
+    <br>
+    <nz-input-group [nzAddOnBefore]="'起止日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="orgSearch.orgBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="orgSearch.orgEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'提交日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="orgSearch.submitDateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="orgSearch.submitDateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'审核日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="orgSearch.reviewDateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="orgSearch.reviewDateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
+    <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">
+      <span>模糊搜索</span>
+    </button>
+    <button nz-button nzType="danger" (click)="resetInput()">
+      <span>清空</span>
+    </button>
+  </div>
+
   <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="orgs" [(nzPageSize)]="_pageSize" [nzTotal]="_total"
             [nzFrontPagination]="false" [nzTitle]="tableTitle" [(nzPageIndex)]="_current" [nzShowSizeChanger]="true" [nzShowQuickJumper]="true"
-            (nzPageIndexChange)="getorgs()" (nzPageSizeChange)="getorgs()" [nzShowTotal]="totalTemplate">
+            (nzPageIndexChange)="getPage()" (nzPageSizeChange)="getPage()" [nzShowTotal]="totalTemplate">
     <ng-template #totalTemplate let-total>
       共{{total}}条记录
     </ng-template>

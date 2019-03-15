@@ -9,7 +9,12 @@ export class Student {
     public stuDorm: any,
     public stuTel: any,
     public stuQq: any,
-    public stuIntro: any
+    public stuIntro: any,
+    public stuGrade: any,
+    public stuAge: any,
+    public stuHome: any,
+    public stuGpa: any,
+    public identity: any
   ) { }
 }
 
@@ -18,11 +23,17 @@ export class Prize {
     public prizeName: any,
     public prizeClass: any,
     public prizeLevel: any,
+    public prizeLevel2: any,
     public prizeFile: any,
     public prizeIntro: any,
     public status: any,
     public prizeDate: any,
-    public reason: any
+    public reason: any,
+    public submitDate: any,
+    public reviewDate: any,
+    public reviewer: any,
+    public stuId: any,
+    public stuName: any
   ) { }
 }
 
@@ -202,6 +213,7 @@ export const prizeLevelList = ['国际级', '国家级', '省级', '市级', '�
 export const orgTypeList = ['科研、项目组织', '文体类组织', '社会实践组织', '学生组织', '志愿者组织', '班干部', '其它'];
 
 export function dateTrans(oriDate: any) {
+  if (oriDate == null) {return '无';}
   oriDate = new Date(oriDate);
   var year = oriDate.getFullYear();
   var month = oriDate.getMonth() + 1;

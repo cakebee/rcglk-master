@@ -4,6 +4,8 @@ import { UploadFile } from 'ng-zorro-antd';
 // import { Student } from '../../data.model';
 import * as XLSX from 'xlsx';
 import { domain } from '../../config';
+import {Student} from '../../data.model';
+import {create} from 'domain';
 
 @Component({
   selector: 'app-usermanager',
@@ -17,15 +19,18 @@ export class UsermanagerComponent implements OnInit {
   _current = 1;
   _pageSize = 10;
   _total = 0;
+  isFuzzySearch: boolean = false;
   isConfirmLoading: boolean = false;
   isVisible: boolean = false;
   stuForm: FormGroup;
-  // student: Student;
+  student: Student;
   fileList: UploadFile[] = [];
   uploading = false;
   stuId = '';
   stuName = '';
   stuClass = '';
+  mapOfExpandData = {};
+  sheet = ['学号', '姓名', '性别', '身份证号', '专业',/* '年级', */ '班级', '宿舍', '政治面貌', '密码'];
   filterGender = [
     { text: '男', value: '男' },
     { text: '女', value: '女' }
@@ -103,14 +108,6 @@ export class UsermanagerComponent implements OnInit {
     // this.uploading = true;
   }
 
-  changePageIndex(){
-    this.getUsers();
-  }
-
-  changePageSize() {
-    this.getUsers();
-  }
-
   getUsers() {
     this._loading = true;
     let xhr = new XMLHttpRequest();
@@ -124,6 +121,7 @@ export class UsermanagerComponent implements OnInit {
             this.usersList = [];
             resUsers.forEach(element => {
               element.stuGrade = element.stuClass.slice(0, 4);
+              element.isExpanded = false;
               this.usersList.push(element);
             });
             this.users = this.usersList;
@@ -134,7 +132,7 @@ export class UsermanagerComponent implements OnInit {
           }
         }
         else {
-          alert("服务器无相应，请稍后再试...")
+          alert("服务器无响应，请稍后再试...")
           this._loading = false;
         }
       }
@@ -232,11 +230,77 @@ export class UsermanagerComponent implements OnInit {
       this.refreshStatus();
       this.operating = false;
     }, 1000);
-    
   }
 
+  createForm(): void {
+    this.student = new Student('', '', '', '', '',
+      '', '', '', '', '',
+      '', '', '', '', '');
+  }
+
+  resetInput(): void {
+    this.isFuzzySearch = false;
+    this.student.stuId = '';
+    this.student.stuName = '';
+    this.student.stuGender = '';
+    this.student.stuMajor = '';
+    this.student.stuClass = '';
+    this.student.stuStatus = '';
+    this.student.stuDorm = '';
+    this.student.stuTel = '';
+    this.student.stuQq = '';
+    this.student.stuIntro = '';
+    this.student.stuGrade = '';
+    this.student.identity = '';
+    this.getPage();
+  }
+
+  //模糊搜索
+  fuzzySearch(): void {
+    this._loading = true;
+    this.isFuzzySearch = true;
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          if (JSON.parse(xhr.responseText).code == "100") {
+            let resUsers = JSON.parse(xhr.responseText).extend.pageBean.list;
+            //this._pageSize = JSON.parse(xhr.responseText).extend.pageBean.pageSize;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
+            this.usersList = [];
+            resUsers.forEach(element => {
+              element.stuGrade = element.stuClass.slice(0, 4);
+              this.usersList.push(element);
+            });
+            this.users = this.usersList;
+            this._loading = false;
+          }
+          else {
+            alert("请求失败，稍后再试...")
+          }
+        }
+        else {
+          alert("服务器无响应，请稍后再试...")
+          this._loading = false;
+        }
+      }
+    };
+    xhr.open('post', `${domain}/Studentsinfos/_search?pageNum=${this._current}&pageSize=${this._pageSize}`);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.send(JSON.stringify(this.student));
+  }
+
+  getPage() {
+    if (this.isFuzzySearch) {
+      this.fuzzySearch();
+    }
+    else {
+      this.getUsers();
+    }
+  }
 
   ngOnInit() {
     this.getUsers();
+    this.createForm();
   }
 }

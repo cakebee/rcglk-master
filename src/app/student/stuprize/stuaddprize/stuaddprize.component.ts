@@ -27,7 +27,8 @@ export class StuaddprizeComponent implements OnInit {
     this.createForm();
   }
   createForm() {
-    this.prize = new Prize('','','','','','','','');
+    this.prize = new Prize('', '', '', '', '',
+      '', '', '', '', '', '', '', '', '');
     this.prizeForm = this.fb.group(this.prize);
   }
   
