@@ -82,9 +82,9 @@ export class PrizemanagerComponent implements OnInit {
         } else {
           alert('获取数据失败，请稍后再试...');
         }
+        this.prizes = this.prizesList;
+        this._loading = false;
       }
-      this.prizes = this.prizesList;
-      this._loading = false;
     };
     xhr1.open('get', `${domain}/Studentsprize/0/-1?pageNum=${this._current}&pageSize=${this._pageSize}`);
     xhr1.send();

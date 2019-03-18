@@ -276,7 +276,8 @@ export class UsermanagerComponent implements OnInit {
             this._loading = false;
           }
           else {
-            alert("请求失败，稍后再试...")
+            alert("请求失败，稍后再试...");
+            this._loading = false;
           }
         }
         else {

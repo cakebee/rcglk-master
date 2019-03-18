@@ -1,3 +1,5 @@
+import {AnimateTimings} from '@angular/animations';
+
 export class Student {
   constructor(
     public stuId: any,
@@ -58,6 +60,23 @@ export class Essay {
     public periodical: any,
     public essayLevel: any,
     public essayDate: any
+  ) { }
+}
+
+export class Paper {
+  constructor(
+    public id: any,
+    public name: any,
+    public author: any,
+    public magazine: any,
+    public level: any,
+    public date: any,
+    public status: any,
+    public review_date: any,
+    public reviewer: any,
+    public submitDate: any,
+    public reason: any,
+    public stuId: any
   ) { }
 }
 

@@ -1,0 +1,77 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      学生素质详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div>
+
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="4">
+      <div style="margin: 40px 0 20px 0">姓名：{{stuName}}</div>
+    </div>
+    <div nz-col [nzSpan]="4">
+      <div style="margin: 40px 0 20px 0">学号：{{stuId}}</div>
+    </div>
+  </div>
+
+  <nz-card nzTitle="获奖信息">
+
+    <div style="background: #ECECEC; padding: 10px;">
+      <div nz-row [nzGutter]="8">
+        <p *ngIf="prizeList.length == 0" class="empty">暂无通过审核的获奖信息</p>
+        <ng-template ngFor let-data [ngForOf]="prizeList">
+          <div nz-col [nzSpan]="5">
+            <nz-card nzTitle="{{data.prizeName}}" nzExtra="{{data.prizeDate}}" class="card">
+              <p></p>
+              <p>这里是项目介绍</p>
+            </nz-card>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </nz-card>
+
+  <nz-card nzTitle="论文">
+
+    <div style="background: #ECECEC; padding: 10px;">
+      <div nz-row [nzGutter]="8">
+        <p *ngIf="paperList.length == 0" class="empty">暂无通过审核的论文</p>
+        <ng-template ngFor let-data [ngForOf]="paperList">
+          <div nz-col [nzSpan]="5">
+            <nz-card nzTitle="{{data.name}}" nzExtra="{{data.date}}" class="card">
+              <p></p>
+              <p>这里是论文介绍</p>
+            </nz-card>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </nz-card>
+
+  <nz-card nzTitle="组织经历">
+
+    <div style="background: #ECECEC; padding: 10px;">
+      <div nz-row [nzGutter]="8">
+        <p *ngIf="orgList.length == 0" class="empty">暂无通过审核的组织经历</p>
+        <ng-template ngFor let-data [ngForOf]="orgList">
+          <div nz-col [nzSpan]="5">
+            <nz-card nzTitle="{{data.orgName}}" nzExtra="{{data.orgBegin}}~{{data.orgEnd}}" class="card">
+              <p></p>
+              <p>这里是组织经历介绍</p>
+            </nz-card>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </nz-card>
+
+</div>
