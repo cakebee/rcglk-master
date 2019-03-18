@@ -1,5 +1,3 @@
-import {AnimateTimings} from '@angular/animations';
-
 export class Student {
   constructor(
     public stuId: any,

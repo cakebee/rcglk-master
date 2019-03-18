@@ -20,10 +20,10 @@ export class StuinfoComponent implements OnInit {
   }
 
   createForm() {
-    this.stu = new Student({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+    this.stu = new Student({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
       { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
-      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true},
-    { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
+      { value: '', disabled: true }, { value: '', disabled: true}, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true });
     this.stuForm = this.fb.group(this.stu);
   }
 
@@ -45,7 +45,12 @@ export class StuinfoComponent implements OnInit {
             stuMajor: text.stuMajor,
             stuTel: text.stuTel,
             stuQq: text.stuQq,
-            stuDorm: text.stuDorm
+            stuDorm: text.stuDorm,
+            identity: text.identity,
+            stuGrade: text.stuGrade,
+            stuGpa: text.stuGpa,
+            stuAge: text.stuAge,
+            stuHome: text.stuHome
           });
         } else {
           // 失败，根据响应码判断失败原因:
@@ -55,7 +60,7 @@ export class StuinfoComponent implements OnInit {
     }
 
     // 发送请求:
-    xhr.open('GET', `${domain}/Studentsinfos/${this.userService.user.userName}`);
+    xhr.open('GET', `${domain}/Studentsinfo/${this.userService.user.userName}`);
     xhr.send();
   }
 
