@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 import {domain} from '../config';
+import {NzNotificationService, NzPlacement} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-admin',

@@ -38,6 +38,9 @@ import { EssaymanagerComponent } from './admin/adessay/essaymanager/essaymanager
 import { DoLoginComponent } from './login/do-login/do-login.component';
 import { AdqualityComponent } from './admin/adquality/adquality.component';
 import { QualitydetailComponent } from './admin/adquality/qualitydetail/qualitydetail.component';
+import { ReviewComponent } from './admin/review/review.component';
+import {PdfViewerComponent} from 'ng2-pdf-viewer';
+import { PaperDetailComponent } from './admin/adessay/paper-detail/paper-detail.component';
 
 registerLocaleData(zh);
 
@@ -72,6 +75,9 @@ registerLocaleData(zh);
     DoLoginComponent,
     AdqualityComponent,
     QualitydetailComponent,
+    ReviewComponent,
+    PdfViewerComponent,
+    PaperDetailComponent,
   ],
   imports: [
     BrowserModule,

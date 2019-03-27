@@ -13,7 +13,7 @@ export class PrizecheckComponent implements OnInit {
   prizeId: string;
   reason: string;
   isVisible: boolean = false;
-  isConfrimLoading: boolean = false;
+  isConfirmLoading: boolean = false;
 
   constructor(private route: ActivatedRoute) {
     this.prizeId = this.route.snapshot.paramMap.get('id');

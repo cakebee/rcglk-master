@@ -20,8 +20,10 @@
     <nz-input-group [nzAddOnBefore]="'姓名'" style="width: 170px; margin: 0 20px 20px 0">
       <input nz-input [(ngModel)]="prize.stuName">
     </nz-input-group>
-    <nz-input-group [nzAddOnBefore]="'获奖类别'" style="width: 250px; margin: 0 20px 20px 0">
-      <input nz-input [(ngModel)]="prize.prizeClass">
+    <nz-input-group [nzAddOnBefore]="'获奖类别'" style="width: 200px; margin: 0 20px 20px 0">
+      <nz-select [(ngModel)]="prize.prizeClass" style="width: 100%">
+        <nz-option *ngFor="let c of filterClass" [nzLabel]="c.text" [nzValue]="c.value"></nz-option>
+      </nz-select>
     </nz-input-group>
     <nz-input-group [nzAddOnBefore]="'获奖等级'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
       <nz-select [(ngModel)]="prize.prizeLevel" style="width: 50%">
@@ -31,18 +33,9 @@
         <nz-option *ngFor="let level2 of filterLevel2" [nzLabel]="level2.text" [nzValue]="level2.value"></nz-option>
       </nz-select>
     </nz-input-group>
-    <br>
     <nz-input-group [nzAddOnBefore]="'获奖日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
       <nz-date-picker [(ngModel)]="prize.prizeDateBegin" style="width: 50%"></nz-date-picker>
       <nz-date-picker [(ngModel)]="prize.prizeDateEnd" style="width: 50%"></nz-date-picker>
-    </nz-input-group>
-    <nz-input-group [nzAddOnBefore]="'提交日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
-      <nz-date-picker [(ngModel)]="prize.submitDateBegin" style="width: 50%"></nz-date-picker>
-      <nz-date-picker [(ngModel)]="prize.submitDateEnd" style="width: 50%"></nz-date-picker>
-    </nz-input-group>
-    <nz-input-group [nzAddOnBefore]="'审核日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
-      <nz-date-picker [(ngModel)]="prize.reviewDateBegin" style="width: 50%"></nz-date-picker>
-      <nz-date-picker [(ngModel)]="prize.reviewDateEnd" style="width: 50%"></nz-date-picker>
     </nz-input-group>
     <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
     <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">

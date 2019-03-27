@@ -12,52 +12,67 @@
   </nz-breadcrumb>
 </div>
 
-<div style="margin: 30px;">
-  <form nz-form [formGroup]="essayForm" (ngSubmit)="_submitForm()">
-    <div formArrayName="essayAuthor">
-      <nz-form-item *ngFor="let item of essay.essayAuthor.controls; let i = index;">
-          <nz-form-label [nzSm]="3" nzRequired>作者{{i+1}}</nz-form-label>
-        <div [formGroupName]="i" style="display: inline-block;">
-          <nz-form-control>
-            <nz-select style="width: 100px;" formControlName="order" nzPlaceHolder="请选择...">
-              <nz-option nzValue="第一作者" nzLabel="第一作者"></nz-option>
-              <nz-option nzValue="第二作者" nzLabel="第二作者"></nz-option>
-              <nz-option nzValue="第三作者" nzLabel="第三作者"></nz-option>
-              <nz-option nzValue="第四作者" nzLabel="第四作者"></nz-option>
-              <nz-option nzValue="第五作者" nzLabel="第五作者"></nz-option>
-              <nz-option nzValue="第六作者" nzLabel="第六作者"></nz-option>
-              <nz-option nzValue="第七作者" nzLabel="第七作者"></nz-option>
-            </nz-select>
-            <input style="width: 300px;" formControlName="name" placeholder="请输入姓名..." nz-input>
-            <input type="button" (click)="addAuthor()" value="+" style="border-radius: 50%; width: 30px; height: 30px; cursor: pointer; margin-left:20px; line-height: 25px;">
-          </nz-form-control>
-        </div>
+<div nz-row class="row">
+  <div nz-col [nzOffset]="5">
+
+    <form nz-form [formGroup]="paperForm" (ngSubmit)="_submitForm()" nzLayout="horizontal">
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="4">论文题目</nz-form-label>
+        <nz-form-control>
+          <input style="width: 500px;" formControlName="name" nz-input>
+        </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="4">作者身份</nz-form-label>
+        <nz-form-control>
+          <nz-select style="width: 100px;" formControlName="authorLevel" >
+            <nz-option *ngFor="let item of authorLevelList" [nzLabel]="item.text" [nzValue]="item.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="4">论文级别</nz-form-label>
+        <nz-form-control>
+          <nz-select style="width: 200px" formControlName="level">
+            <nz-option *ngFor="let item of levelList" [nzLabel]="item.text" [nzValue]="item.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="4">发表期刊</nz-form-label>
+        <nz-form-control>
+          <input style="width: 300px;" formControlName="periodical" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="4">发表日期</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="date"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </div>
+  <div nz-row class="row">
+    <div nz-col [nzOffset]="8" style="width: 20%;">
+      <nz-upload [nzBeforeUpload]="beforeUpload" [(nzFileList)]="fileList">
+        <button nz-button value="upload">
+          <i nz-icon type="upload"></i><span>证明材料上传PDF文件</span>
+        </button>
+      </nz-upload>
+      <span>* 需要包括刊物、封面封底、目录页、论文页</span>
     </div>
-    <nz-form-item>
-      <nz-form-label [nzSm]="3" nzRequired>论文级别</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="essayLevel" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="3" nzRequired>论文题目</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="essayTitle" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="3" nzRequired>发表期刊或会议名</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="periodical" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="3" nzRequired>发表日期</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker formControlName="essayDate"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading">提交</button>
-  </form>
+  </div>
+  <div nz-row [nzGutter]="16" class="row">
+    <div nz-col [nzOffset]="8">
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+              [nzLoading]="isConfirmLoading" (click)="_submitForm()"
+              style="margin-right: 20px">提交</button>
+      <button nz-button [nzType]="'danger'" [nzSize]="'large'" (click)="reset()">清空</button>
+    </div>
+  </div>
 </div>

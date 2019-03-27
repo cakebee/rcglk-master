@@ -27,9 +27,12 @@
         <p *ngIf="prizeList.length == 0" class="empty">暂无通过审核的获奖信息</p>
         <ng-template ngFor let-data [ngForOf]="prizeList">
           <div nz-col [nzSpan]="5">
-            <nz-card nzTitle="{{data.prizeName}}" nzExtra="{{data.prizeDate}}" class="card">
-              <p></p>
-              <p>这里是项目介绍</p>
+            <nz-card [nzTitle]="prizeTitle" nzExtra="{{data.prizeDate}}" class="card">
+              <ng-template #prizeTitle>
+                <a routerLink="/admin/prizecheck/{{data.prizeId}}">{{data.prizeName}}</a>
+              </ng-template>
+              <strong>{{data.prizeLevel}}、{{data.prizeLevel2}}</strong>
+              <p>{{data.prizeIntro}}</p>
             </nz-card>
           </div>
         </ng-template>
@@ -45,9 +48,9 @@
         <p *ngIf="paperList.length == 0" class="empty">暂无通过审核的论文</p>
         <ng-template ngFor let-data [ngForOf]="paperList">
           <div nz-col [nzSpan]="5">
-            <nz-card nzTitle="{{data.name}}" nzExtra="{{data.date}}" class="card">
-              <p></p>
-              <p>这里是论文介绍</p>
+            <nz-card [nzTitle]="paperTitle" nzExtra="{{data.date}}" class="card">
+              <ng-template #paperTitle><a routerLink="../">{{data.name}}</a></ng-template>
+              <strong>{{data.level}}</strong>
             </nz-card>
           </div>
         </ng-template>
@@ -62,16 +65,17 @@
       <div nz-row [nzGutter]="8">
         <p *ngIf="orgList.length == 0" class="empty">暂无通过审核的组织经历</p>
         <ng-template ngFor let-data [ngForOf]="orgList">
-          <div nz-col [nzSpan]="5">
-            <nz-card nzTitle="{{data.orgName}}" nzExtra="{{data.orgBegin}}~{{data.orgEnd}}" class="card">
-              <p></p>
-              <p>这里是组织经历介绍</p>
+          <div nz-col [nzSpan]="7">
+            <nz-card [nzTitle]="orgTitle" nzExtra="{{data.orgBegin}}至{{data.orgEnd}}" class="card">
+              <ng-template #orgTitle>
+                <a routerLink="/admin/orgcheck/{{data.orgId}}">{{data.orgName}}</a>
+              </ng-template>
+              <p>{{data.orgIntro}}</p>
             </nz-card>
           </div>
         </ng-template>
       </div>
     </div>
-
   </nz-card>
 
 </div>

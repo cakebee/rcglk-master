@@ -136,7 +136,7 @@ export class OrgmanagerComponent implements OnInit {
   }
 
   createOrgSearch(): void {
-    this.orgSearch = new Org('', '', '', '', '', '');
+    this.orgSearch = new Org('', '', '', '', '', '', '');
     this.orgSearch.stuId = '';
     this.orgSearch.stuName = '';
     this.orgSearch.orgClass = '';

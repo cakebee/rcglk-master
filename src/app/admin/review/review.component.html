@@ -1,0 +1,122 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      管理面板
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      审核
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'为什么没有通过呢？'" (nzOnOk)="confirmNotPass()" (nzOnCancel)="cancelReasonModal()">
+  <textarea rows="4" nz-input [(ngModel)]="reason" placeholder="请输入未通过的原因"></textarea>
+</nz-modal>
+<div>
+  <nz-list [nzDataSource]="prizeList" nzSize="large" [nzRenderItem]="prizeItem" [nzHeader]="header" [nzLoading]="_loading">
+    <ng-template #header>
+      <strong>奖项</strong>
+    </ng-template>
+    <ng-template #prizeItem let-item>
+      <nz-list-item [nzContent]="content" [nzActions]="[downloadAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="title" [nzDescription]="item.prizeIntro">
+          <ng-template #title>
+            <a routerLink="../prizecheck/{{item.prizeId}}">{{item.prizeName}}（{{item.prizeClass}}）</a>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #content>
+          <div style="width: 100%">
+            <div class="itemTag">
+              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel">{{item.prizeLevel}}</nz-tag>
+              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel2">{{item.prizeLevel2}}</nz-tag>
+            </div>
+            <p nz-popover [nzContent]="'获奖时间'" class="itemDetail">{{item.prizeDate}}</p>
+            <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
+          </div>
+        </ng-template>
+        <ng-template #downloadAction>
+          <a>
+            <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
+          </a>
+        </ng-template>
+        <ng-template #passAction>
+          <button nz-button nzType="primary" (click)="pass('prize', item.prizeId)">通过</button>
+        </ng-template>
+        <ng-template #notPassAction>
+          <button nz-button nzType="danger" (click)="notPass('prize', item.prizeId)">不通过</button>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+
+
+  <nz-list [nzDataSource]="paperList" nzSize="large" [nzRenderItem]="paperItem" [nzHeader]="paperHeader" [nzLoading]="_loading">
+    <ng-template #paperHeader>
+      <strong>论文</strong>
+    </ng-template>
+    <ng-template #paperItem let-item>
+      <nz-list-item [nzContent]="content" [nzActions]="[browseAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.magezine">
+          <ng-template #nzTitle>
+            <a>{{item.name}}</a>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #content>
+          <div style="width: 100%">
+            <nz-tag nzColor="#2db7f5" class="itemTag">{{item.level}}</nz-tag>
+            <p nz-popover [nzContent]="'发表时间'" class="itemDetail">{{item.date}}</p>
+            <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.author}}</p>
+          </div>
+        </ng-template>
+        <ng-template #browseAction>
+          <a href="http://localhost:8080/uploadFile/{{item.file}}">
+            <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
+          </a>
+        </ng-template>
+        <ng-template #passAction>
+          <button nz-button nzType="primary" (click)="pass('paper', item.id)">通过</button>
+        </ng-template>
+        <ng-template #notPassAction>
+          <button nz-button nzType="danger" (click)="notPass('paper', item.id)">不通过</button>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+
+  <nz-list [nzDataSource]="orgList" nzSize="large" [nzRenderItem]="orgItem" [nzHeader]="orgHeader" [nzLoading]="_loading">
+    <ng-template #orgHeader>
+      <strong>组织经历</strong>
+    </ng-template>
+    <ng-template #orgItem let-item>
+      <nz-list-item [nzContent]="content" [nzActions]="[downloadAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.orgIntro">
+          <ng-template #nzTitle>
+            <a routerLink="../orgcheck/{{item.orgId}}">{{item.orgName}}（{{item.orgDuty}}）</a>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #content>
+          <div style="width: 100%">
+            <nz-tag nzColor="#87d068" class="itemTag" *ngIf="item.orgHonor">{{item.orgHonor}}</nz-tag>
+            <p nz-popover [nzContent]="'起止时间'" class="itemDetail" style="width: 40%">{{item.orgBegin}}至{{item.orgEnd}}</p>
+            <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
+          </div>
+        </ng-template>
+        <ng-template #downloadAction>
+          <a href="">
+            <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
+          </a>
+        </ng-template>
+        <ng-template #passAction>
+          <button nz-button nzType="primary" (click)="pass('org', item.orgId)">通过</button>
+        </ng-template>
+        <ng-template #notPassAction>
+          <button nz-button nzType="danger" (click)="notPass('org', item.orgId)">不通过</button>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+
+</div>

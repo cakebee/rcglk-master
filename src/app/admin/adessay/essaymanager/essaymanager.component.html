@@ -10,9 +10,49 @@
 </div>
 
 <div style="margin: 30px;">
-  <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="essays" [nzFrontPagination]="true"
-    [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current">
-    <ng-template #tableTitle>
+  <div>
+    <nz-input-group [nzAddOnBefore]="'论文标题'" style="width: 600px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="paper.name">
+    </nz-input-group>
+    <br>
+    <nz-input-group [nzAddOnBefore]="'学号'" style="width: 200px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="paper.stuId">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'作者姓名'" style="width: 180px; margin: 0 20px 20px 0">
+      <input nz-input [(ngModel)]="paper.author">
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'作者身份'" style="width: 200px; margin: 0 20px 20px 0">
+      <nz-select [(ngModel)]="paper.authorLevel" style="width: 100%">
+        <nz-option *ngFor="let c of filterAuthorLevel" [nzLabel]="c.text" [nzValue]="c.value"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'论文级别'" style="width: 250px; margin: 0 20px 20px 0" nzCompact>
+      <nz-select [(ngModel)]="paper.level" style="width: 100%">
+        <nz-option *ngFor="let level of filterLevel" [nzLabel]="level.text" [nzValue]="level.value"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <nz-input-group [nzAddOnBefore]="'发表日期'" style="width: 300px; margin: 0 20px 20px 0" nzCompact>
+      <nz-date-picker [(ngModel)]="paper.dateBegin" style="width: 50%"></nz-date-picker>
+      <nz-date-picker [(ngModel)]="paper.dateEnd" style="width: 50%"></nz-date-picker>
+    </nz-input-group>
+    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
+    <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">
+      <span>模糊搜索</span>
+    </button>
+    <button nz-button nzType="danger" (click)="resetInput()">
+      <span>清空</span>
+    </button>
+  </div>
+</div>
+
+<div style="margin: 30px;">
+  <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="papers" [nzFrontPagination]="false"
+            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowTotal]="totalTemplate" [nzTotal]="_total"
+            [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" (nzPageSizeChange)="getPage()" (nzPageIndexChange)="getPage()">
+    <ng-template #totalTemplate let-total>
+      共{{total}}条记录
+    </ng-template>
+    <!--<ng-template #tableTitle>
       论文信息汇总
       <button style="margin-left: 20px;" nz-button class="btn" [nzType]="'primary'" (click)="downloadTemplate()">下载Excel模板</button>
       <nz-upload style="margin-left: 20px;" [nzShowUploadList]="false" (nzChange)="fileChange($event)" nzAction="http://120.78.223.177/rcglk/Excel/readPrize">
@@ -21,7 +61,7 @@
         </button>
       </nz-upload>
       <button nz-button style="float: right;" nzType="primary" (click)="exportExcel()">导出至Excel</button>
-    </ng-template>
+    </ng-template>-->
 
     <thead>
       <tr>
@@ -48,6 +88,7 @@
             </div>
           </nz-dropdown>
         </th>
+        <th>身份</th>
         <th nzCustomFilter>
           <span>发表期刊</span>
           <nz-dropdown nzTrigger="click" [nzClickHide]="false" #dropdown>
@@ -65,20 +106,21 @@
         <th>
           <span>发表时间</span>
         </th>
+        <th>
+          <span>证明文件</span>
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
         <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
-        <td><a routerLink="../orgdetails/{{data.orgId}}">{{data.essayTitle}}</a></td>
-        <td>
-          <ul>
-            <li *ngFor="let author of data.essayAuthor">{{author.order}}: {{author.name}}</li>
-          </ul>
-        </td>
+        <td><a>{{data.name}}</a></td>
+        <td>{{data.author}}</td>
+        <td>第{{data.authorLevel}}作者</td>
         <td>{{data.periodical}}</td>
-        <td>{{data.essayLevel}}</td>
-        <td>{{data.essayDate}}</td>
+        <td>{{data.level}}</td>
+        <td>{{data.date}}</td>
+        <td><a href="http://localhost:8080/uploadFile/1.pdf" target="_blank"><button nz-button nzType="primary"><i nz-icon type="search"></i></button></a></td>
       </tr>
     </tbody>
   </nz-table>

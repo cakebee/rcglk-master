@@ -23,7 +23,7 @@ export class StuaddorgComponent implements OnInit {
   }
 
   createForm() {
-    this.org = new Org('','','','','','');
+    this.org = new Org('','','','','','', '');
     this.orgForm = this.fb.group(this.org);
   }
 

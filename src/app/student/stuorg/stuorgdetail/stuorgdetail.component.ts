@@ -24,7 +24,8 @@ export class StuorgdetailComponent implements OnInit {
   }
   
   createForm(){
-    this.org = new Org({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
+    this.org = new Org({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
     this.orgForm = this.fb.group(this.org);
   }
 

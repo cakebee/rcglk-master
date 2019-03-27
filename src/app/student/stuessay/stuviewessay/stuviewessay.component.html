@@ -13,7 +13,8 @@
 </div>
 
 <div style="margin: 30px;">
-  <nz-table #basicTable [nzLoading]="_loading" [nzData]="essayLists" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current">
+  <nz-table #basicTable [nzLoading]="_loading" [nzData]="paperList" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current"
+            [nzShowSizeChanger]="'true'" [nzShowQuickJumper]="'true'" (nzPageIndexChange)="getPapers()" (nzPageSizeChange)="getPapers()">
     <thead>
       <tr>
         <th>
@@ -23,27 +24,27 @@
           <span>作者</span>
         </th>
         <th>
+          <span>身份</span>
+        </th>
+        <th>
           <span>发表期刊</span>
         </th>
         <th>
           <span>论文级别</span>
         </th>
         <th>
-          <span>发表时间</span>
+          <span>发表日期</span>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td><a routerLink="../orgdetails/{{data.orgId}}">{{data.essayTitle}}</a></td>
-        <td>
-          <ul>
-            <li *ngFor="let author of data.essayAuthor">{{author.order}}: {{author.name}}</li>
-          </ul>
-        </td>
+        <td><a>{{data.name}}</a></td>
+        <td>{{data.author}}</td>
+        <td>{{data.authorLevel}}</td>
         <td>{{data.periodical}}</td>
-        <td>{{data.essayLevel}}</td>
-        <td>{{data.essayDate}}</td>
+        <td>{{data.level}}</td>
+        <td>{{data.date}}</td>
       </tr>
     </tbody>
   </nz-table>

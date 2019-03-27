@@ -46,7 +46,8 @@ export class Org {
     public orgDuty: any,
     public orgBegin: any,
     public orgEnd: any,
-    public orgIntro: any
+    public orgIntro: any,
+    public orgHonor: any
   ) { }
 }
 
@@ -66,15 +67,19 @@ export class Paper {
     public id: any,
     public name: any,
     public author: any,
-    public magazine: any,
+    public periodical: any,
     public level: any,
     public date: any,
     public status: any,
-    public review_date: any,
+    public reviewDate: any,
     public reviewer: any,
     public submitDate: any,
     public reason: any,
-    public stuId: any
+    public stuId: any,
+    public accessNumber: any,
+    public authorLevel: any,
+    public paperId: any,
+    public url: any
   ) { }
 }
 

@@ -1,0 +1,11 @@
+.itemDetail{
+  float: right;
+  position: relative;
+  width: 20%;
+  text-align: center
+}
+
+.itemTag{
+  float: left;
+  margin-left: 20px;
+}

@@ -20,8 +20,12 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
+    "@types/jquery": "^3.3.29",
     "core-js": "^2.5.4",
+    "jquery": "^3.3.1",
     "ng-zorro-antd": "^1.8.0",
+    "ng2-pdf-viewer": "^5.2.3",
+    "pdfjs-dist": "^2.0.943",
     "rxjs": "^6.0.0",
     "xlsx": "^0.14.1",
     "zone.js": "~0.8.26"

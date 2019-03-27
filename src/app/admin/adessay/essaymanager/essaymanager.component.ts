@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {domain} from '../../../config';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {dateTrans, Paper} from '../../../data.model';
+import {PdfViewerComponent} from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-essaymanager',
@@ -7,22 +11,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EssaymanagerComponent implements OnInit {
 
-  essays: Array<any> = [];
-  essaysList: Array<any> = [];
+  papers: Array<any> = [];
+  paperList: Array<any> = [];
   _loading: boolean = true;
   _current = 1;
-  _pageSize = 8;
+  _pageSize = 10;
+  _total = 0;
+  _pages = 0;
+  paper: any;
+  isFuzzy: boolean = false;
+  pdf: 'http://localhost:8080/Paper/file/1';
 
-  essayName: string;
+  paperName: string;
   stuName: string;
   periodical: string;
+  filterAuthorLevel = [
+    { text: '通讯作者', value: '0'},
+    { text: '第一作者', value: '1'},
+    { text: '第二作者', value: '2'},
+    { text: '第三作者', value: '3'},
+    { text: '第四作者', value: '4'},
+    { text: '第五作者', value: '5'},
+    { text: '第六作者', value: '6'},
+    { text: '第七作者', value: '7'},
+  ]
   filterLevel = [
+    { text: 'SCI', value: 'SCI'},
+    { text: 'EI/CSSI/SSCI/一级期刊', value: 'EI/CSSI/SSCI/一级期刊'},
+    { text: '核心期刊', value: '核心期刊'},
+    { text: '公开发表', value: '公开发表'},
+  ]
+
+  /*filterLevel = [
   //   { text: '国际级', value: '国际级' },
   //   { text: '国家级', value:'国家级'},
   //   { text: '省级', value:'省级'},
   //   { text: '市级', value: '市级'},
   //   { text: '校级', value: '校级' }
-  ];
+  ];*/
   searchLevelList: Array<string> = [];
   // filterStatus = [
   //   { text: '审核通过', value: '审核通过' },
@@ -36,26 +62,93 @@ export class EssaymanagerComponent implements OnInit {
   operating = false;
   indeterminate = false;
 
-  getessays() {
-    
+  getPage() {
+    if(this.isFuzzy) {
+      this.fuzzySearch();
+    }else {
+      this.getPaper();
+    }
   }
+
+  fuzzySearch() {
+    this.isFuzzy = true;
+    this._loading = true;
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          if (JSON.parse(xhr.responseText).code == '100') {
+            this.papers = JSON.parse(xhr.responseText).extend.pageBean.list;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
+            this.trans();
+            this._loading = false;
+          } else {
+            alert('获取数据失败');
+            this._loading = false;
+          }
+        } else {
+          alert('服务器无响应');
+          this._loading = false;
+        }
+      }
+    }
+
+    xhr.open('post', `${domain}/Paper/_search?pageNum=${this._current}&pageSize=${this._pageSize}`);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.send(JSON.stringify(this.paper));
+  }
+
+  getPaper() {
+    this._loading = true;
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          if (JSON.parse(xhr.responseText).code == '100') {
+            this.papers = JSON.parse(xhr.responseText).extend.pageBean.list;
+            this._current = JSON.parse(xhr.responseText).extend.pageBean.pageNum;
+            this._pageSize = JSON.parse(xhr.responseText).extend.pageBean.pageSize;
+            this._total = JSON.parse(xhr.responseText).extend.pageBean.total;
+            this._pages = JSON.parse(xhr.responseText).extend.pageBean.pages;
+            this.trans();
+            this._loading = false;
+          }else {
+            alert('获取数据失败');
+            this._loading = false;
+          }
+        }else {
+          alert('服务器无响应');
+          this._loading = false;
+        }
+      }
+    }
+    xhr.open('GET', `${domain}/Paper/-1/-1?pageNum=${this._current}&pageSize=${this._pageSize}`);
+    xhr.send();
+  }
+
+  resetInput() {
+    this.isFuzzy = false;
+    this.createForm();
+    this.getPaper();
+  }
+
 
   search() {
     this._loading = true;
-    this.essays = this.essaysList.filter((element)=>{
-      if(this.essayName && element.essayTitle.indexOf(this.essayName)==-1){
+    this.papers = this.paperList.filter((element)=>{
+      if(this.paperName && element.paperName.indexOf(this.paperName)==-1){
         return false;
       }
 
-      if(this.stuName){
+      /*if(this.stuName){
         let num = 0;
-        element.essayAuthor.forEach(author => {
+        element.author.forEach(author => {
           if(author.name.indexOf(this.stuName)!=-1){
             num = num + 1;
           }
         });
         return num != 0;
-      }
+      }*/
 
       if(this.periodical && element.periodical.indexOf(this.periodical)==-1){
         return false;
@@ -103,50 +196,65 @@ export class EssaymanagerComponent implements OnInit {
   // }
 
   refreshStatus(): void {
-    const allChecked = this.essays.every(value => value.checked === true);
-    const allUnChecked = this.essays.every(value => !value.checked);
+    const allChecked = this.papers.every(value => value.checked === true);
+    const allUnChecked = this.papers.every(value => !value.checked);
     this.allChecked = allChecked;
     this.indeterminate = (!allChecked) && (!allUnChecked);
-    this.disabledButton = !this.essays.some(value => value.checked);
-    this.checkedNumber = this.essays.filter(value => value.checked).length;
+    this.disabledButton = !this.papers.some(value => value.checked);
+    this.checkedNumber = this.papers.filter(value => value.checked).length;
     console.log(this.checkedNumber)
   }
 
   checkAll(value: boolean): void {
-    this.essays.forEach(data => data.checked = value);
+    this.papers.forEach(data => data.checked = value);
     this.refreshStatus();
   }
 
   operateData(): void {
     this.operating = true;
-    const opUser = this.essays.filter( (element) => element.checked == true);
+    const opUser = this.papers.filter( (element) => element.checked == true);
     console.log(opUser);
     setTimeout(_ => {
-      this.essays.forEach(value => value.checked = false);
+      this.papers.forEach(value => value.checked = false);
       this.refreshStatus();
       this.operating = false;
     }, 1000);
     
   }
 
+  exportExcel() {
+
+  }
+
+  trans() {
+    for (var i in this.papers) {
+      this.papers[i].date = dateTrans(this.papers[i].date);
+      this.papers[i].submitDate = dateTrans(this.papers[i].submitDate);
+      this.papers[i].reviewDate = dateTrans(this.papers[i].reviewDate);
+    }
+  }
+
+  downloadTemplate() {}
+
+  fileChange() {}
+
+  createForm() {
+    this.paper = new Paper('', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '');
+    this.paper.dateBegin = '';
+    this.paper.dateEnd = '';
+    this.paper.submitDateBegin = '';
+    this.paper.submitDateEnd = '';
+    this.paper.reviewDateBegin = '';
+    this.paper.reviewDateEnd = '';
+  }
+
   constructor() { }
 
   ngOnInit() {
-    // this.getessays();
-    this.essaysList = [{ 
-      "stuId": "2016220202004", 
-      "essayTitle": "浅谈web安全", 
-      "essayDate": "2018-11-23", 
-      "essayLevel": "E5", 
-      "periodical": "《当代计算机》", 
-      "essayAuthor": [
-        { "order": "第一作者", "name": "zhang" }, 
-        { "order": "第二作者", "name": "tiger" },
-        { "order": "第三作者", "name": "rain" }
-      ]
-    }];
-    this.essays = this.essaysList;
+    this._loading = true;
+    this.getPaper();
+    this.createForm();
     this._loading = false;
   }
-
 }

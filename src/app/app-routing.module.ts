@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {PdfViewerComponent} from 'ng2-pdf-viewer';
 
 import { LoginComponent } from './login/login.component';
 import { DoLoginComponent } from './login/do-login/do-login.component';
@@ -26,6 +27,7 @@ import { StudentGuard } from './guard/student.guard'
 import { from } from 'rxjs';
 import {AdqualityComponent} from './admin/adquality/adquality.component';
 import {QualitydetailComponent} from './admin/adquality/qualitydetail/qualitydetail.component';
+import {ReviewComponent} from './admin/review/review.component';
 
 
 const routes: Routes = [
@@ -114,6 +116,10 @@ const routes: Routes = [
       {
         path: 'qualitydetail/:id',
         component: QualitydetailComponent
+      },
+      {
+        path: 'review',
+        component: ReviewComponent
       }
     ]
   },

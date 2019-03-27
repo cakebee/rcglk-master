@@ -39,6 +39,14 @@ export class PrizemanagerComponent implements OnInit {
     {text: '审核未通过', value: '审核未通过'},
     {text: '未审核', value: '未审核'}
   ];
+  filterClass = [
+    {text: '科研竞赛', value: '科研竞赛'},
+    {text: '文体特长', value: '文体特长'},
+    {text: '应用技能', value: '应用技能'},
+    {text: '特殊表彰', value: '特殊表彰'},
+    {text: '发明专利', value: '发明专利'},
+    {text: '其他', value: '其他'},
+  ]
   searchStatusList: Array<string> = [];
   allChecked = false;
   disabledButton = true;
@@ -216,12 +224,12 @@ export class PrizemanagerComponent implements OnInit {
             resPrizes[i].status = statusTrans(resPrizes[i].status);
             list.push(resPrizes[i]);
           }
+          this.prizes = list;
+          this._loading = false;
         } else {
           alert('获取数据失败，请稍后再试...');
         }
       }
-      this.prizes = list;
-      this._loading = false;
     };
 
     xhr.open('post', `${domain}/Studentsprize/_search?pageNum=${this._current}&pageSize=${this._pageSize}`);
@@ -230,7 +238,7 @@ export class PrizemanagerComponent implements OnInit {
   }
 
   getPage(): void {
-    if (this.isFuzzy){
+    if (this.isFuzzy) {
       this.fuzzySearch();
     } else {
       this.getprizes();
