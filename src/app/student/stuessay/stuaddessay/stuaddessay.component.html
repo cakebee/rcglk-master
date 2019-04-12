@@ -81,7 +81,8 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="4">说明</nz-form-label>
         <nz-form-control [nzOffset]="4" class="form_input">
-          <textarea class="form_input" formControlName="intro" nz-input nzAutosize="true"></textarea>
+          <textarea class="form_input" formControlName="intro" nz-input nzAutosize="true"
+                    [maxLength]="introLimit" (keyup)="checkIntro()" (mouseenter)="checkIntro()"></textarea>
           <span style="float: right">#还能输入{{introLengthRemain}}字</span>
         </nz-form-control>
       </nz-form-item>
