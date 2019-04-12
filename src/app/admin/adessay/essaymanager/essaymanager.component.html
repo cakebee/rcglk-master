@@ -35,7 +35,7 @@
       <nz-date-picker [(ngModel)]="paper.dateBegin" style="width: 50%"></nz-date-picker>
       <nz-date-picker [(ngModel)]="paper.dateEnd" style="width: 50%"></nz-date-picker>
     </nz-input-group>
-    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含完整输入字段的记录"></i>
+    <i nz-icon nz-popover type="question-circle" style="margin-right: 20px" nzContent="搜索包含关键词的记录，搜索起止日期范围内的记录"></i>
     <button nz-button nzType="primary" style="margin-right: 20px" (click)="fuzzySearch()">
       <span>模糊搜索</span>
     </button>
@@ -47,7 +47,7 @@
 
 <div style="margin: 30px;">
   <nz-table #basicTable [nzBordered]="true" [nzLoading]="_loading" [nzData]="papers" [nzFrontPagination]="false"
-            [nzTitle]="tableTitle" [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowTotal]="totalTemplate" [nzTotal]="_total"
+            [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowTotal]="totalTemplate" [nzTotal]="_total"
             [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" (nzPageSizeChange)="getPage()" (nzPageIndexChange)="getPage()">
     <ng-template #totalTemplate let-total>
       共{{total}}条记录
@@ -72,7 +72,7 @@
             <i nz-icon type="smile-o" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
               nz-dropdown></i>
             <div class="custom-filter-dropdown">
-              <input type="text" nz-input placeholder="输入名称以搜索..." style="width: 150px;" [(ngModel)]="essayName">
+              <input type="text" nz-input placeholder="输入名称以搜索..." style="width: 150px;" [(ngModel)]="paperName">
               <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
             </div>
           </nz-dropdown>
@@ -116,11 +116,12 @@
         <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
         <td><a>{{data.name}}</a></td>
         <td>{{data.author}}</td>
-        <td>第{{data.authorLevel}}作者</td>
+        <td *ngIf="data.authorLevel != 0">第{{data.authorLevel}}作者</td>
+        <td *ngIf="data.authorLevel == 0">通讯作者</td>
         <td>{{data.periodical}}</td>
         <td>{{data.level}}</td>
         <td>{{data.date}}</td>
-        <td><a href="http://localhost:8080/uploadFile/1.pdf" target="_blank"><button nz-button nzType="primary"><i nz-icon type="search"></i></button></a></td>
+        <td><a href="{{filePath}}/{{data.file}}" target="_blank"><button nz-button nzType="primary"><i nz-icon type="search"></i></button></a></td>
       </tr>
     </tbody>
   </nz-table>

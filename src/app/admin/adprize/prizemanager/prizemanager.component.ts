@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {dateTrans, statusTrans, prizeLevelList, Prize} from '../../../data.model';
 import * as XLSX from 'xlsx';
-import {domain} from '../../../config';
+import {domain, filePath} from '../../../config';
 
 @Component({
   selector: 'app-prizemanager',
@@ -20,6 +20,7 @@ export class PrizemanagerComponent implements OnInit {
   stuId: string;
   stuName: string;
   isFuzzy: boolean = false;//是否模糊搜索
+  filePath = filePath;
   filterLevel = [
     {text: '国际级', value: '国际级'},
     {text: '国家级', value: '国家级'},
@@ -199,7 +200,7 @@ export class PrizemanagerComponent implements OnInit {
 
   createPrize(): void {
     this.prize = new Prize('', '', '', '', '', '' ,
-      '',  '', '', '', '', '', '', '');
+      '',  '', '', '', '', '', '', '', '');
     this.prize.prizeDateBegin = '';
     this.prize.prizeDateEnd = '';
     this.prize.submitDateBegin = '';

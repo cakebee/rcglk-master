@@ -12,41 +12,88 @@
   </nz-breadcrumb>
 </div>
 <div style="margin: 30px">
-  <form nz-form [formGroup]="orgForm" (ngSubmit)="_submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>组织(活动)类别</nz-form-label>
-      <nz-form-control>
-        <nz-select style="width: 300px;" formControlName="orgClass" nzAllowClear>
-          <nz-option *ngFor="let option of typeList" [nzLabel]="option" [nzValue]="option"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>组织(活动)名称</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="orgName" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>担任职责</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="orgDuty" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>参与日期</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker formControlName="orgBegin"></nz-date-picker>
-        至
-        <nz-date-picker formControlName="orgEnd"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2">说明</nz-form-label>
-      <nz-form-control>
-        <textarea rows="6" style="width: 400px;" formControlName="orgIntro" nz-input></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading">提交</button>
-  </form>
+  <div nz-col [nzOffset]="5">
+    <form nz-form [formGroup]="orgForm" (ngSubmit)="_submitForm()">
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">组织(活动)类别</nz-form-label>
+        <nz-form-control>
+          <nz-select class="form_input" formControlName="orgClass" nzAllowClear>
+            <nz-option *ngFor="let option of typeList" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">组织(活动)名称</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="orgName" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">担任职责</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="orgDuty" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">参与日期</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="orgBegin" style="width: 140px;"></nz-date-picker>
+          至
+          <nz-date-picker formControlName="orgEnd" style="width: 140px;"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">证明文件</nz-form-label>
+        <nz-form-control class="form_input" [nzOffset]="4">
+          <nz-upload [nzBeforeUpload]="beforeUpload" [(nzFileList)]="fileList">
+            <button nz-button value="upload" type="button" class="form_input">
+              <i nz-icon type="upload"></i><span>上传PDF文件</span>
+            </button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">获得的荣誉</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="orgHonor" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">说明</nz-form-label>
+        <nz-form-control class="form_input" [nzOffset]="4">
+          <textarea nzAutosize="true" formControlName="orgIntro" nz-input
+                    class="form_input" [disabled]="isConfirmLoading" [maxLength]="introLimit"
+                    (keyup)="checkIntro()" (mouseenter)="checkIntro()">
+          </textarea>
+          <span style="float: right">#还能输入{{introLengthRemain}}字</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 10px">
+        <nz-form-control [nzOffset]="4">
+          <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading"
+                  class="form_input" type="button" (click)="_submitForm()">提交
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+          <button nz-button [nzType]="'danger'" [nzSize]="'large'" type="button"
+                  class="form_input" (click)="reset()">
+            <span *ngIf="!isUpdate">清空</span>
+            <span *ngIf="isUpdate">撤回修改</span>
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </div>
 </div>

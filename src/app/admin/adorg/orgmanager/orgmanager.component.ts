@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {dateTrans, Org} from '../../../data.model';
 import * as XLSX from 'xlsx';
-import { domain } from '../../../config';
+import {domain, filePath} from '../../../config';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class OrgmanagerComponent implements OnInit {
   orgName: string;
   stuId: string;
   stuName: string;
-
+  filePath = filePath;
   allChecked = false;
   disabledButton = true;
   checkedNumber = 0;
@@ -136,7 +136,7 @@ export class OrgmanagerComponent implements OnInit {
   }
 
   createOrgSearch(): void {
-    this.orgSearch = new Org('', '', '', '', '', '', '');
+    this.orgSearch = new Org('', '', '', '', '', '', '', '');
     this.orgSearch.stuId = '';
     this.orgSearch.stuName = '';
     this.orgSearch.orgClass = '';

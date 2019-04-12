@@ -13,47 +13,77 @@
 </div>
 
 <div style="margin: 30px;">
-  <form nz-form [formGroup]="prizeForm" (ngSubmit)="_submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>获奖类别</nz-form-label>
-      <nz-form-control>
-        <nz-cascader style="width: 300px;" [nzOptions]="typeList" formControlName="prizeClass"></nz-cascader>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>获奖级别</nz-form-label>
-      <nz-form-control>
-        <nz-select style="width: 300px;" formControlName="prizeLevel" nzAllowClear>
-          <nz-option *ngFor="let option of levelList" [nzLabel]="option" [nzValue]="option"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>奖项名称</nz-form-label>
-      <nz-form-control>
-        <input style="width: 300px;" formControlName="prizeName" nz-input>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>获奖日期</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker formControlName="prizeDate"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" nzRequired>证明文件</nz-form-label>
-      <nz-form-control>
-        <nz-upload nzAction="http://120.78.223.177/rcglk/file" [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload">
-          <input nz-button type="button" value="upload">
-        </nz-upload>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2">说明</nz-form-label>
-      <nz-form-control>
-        <textarea rows="6" style="width: 400px;" formControlName="prizeIntro" nz-input></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <button  nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading">提交</button>
-  </form>
+  <div nz-col [nzOffset]="5">
+    <form nz-form [formGroup]="prizeForm" (ngSubmit)="_submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">获奖类别</nz-form-label>
+        <nz-form-control>
+          <nz-cascader class="form_input" [nzOptions]="typeList" formControlName="prizeClass"></nz-cascader>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">获奖级别</nz-form-label>
+        <nz-form-control>
+          <nz-select style="width: 150px" formControlName="prizeLevel" nzAllowClear>
+            <nz-option *ngFor="let option of levelList" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+          <nz-select style="width: 150px" formControlName="prizeLevel2" nzAllowClear>
+            <nz-option *ngFor="let option of level2List" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">奖项名称</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="prizeName" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">获奖日期</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="prizeDate" ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">证明文件</nz-form-label>
+        <nz-form-control class="form_input" [nzOffset]="4">
+          <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload">
+            <button nz-button value="upload" type="button" class="form_input">
+              <i nz-icon type="upload"></i><span>上传PDF文件</span>
+            </button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">说明</nz-form-label>
+        <nz-form-control [nzOffset]="4" class="form_input">
+          <textarea nzAutosize="true" class="form_input" formControlName="prizeIntro" nz-input></textarea>
+          <span style="float: right">#还能输入{{introLengthRemain}}字</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 10px">
+        <nz-form-control [nzSpan]="8" [nzOffset]="4">
+          <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading" class="form_input">
+            提交
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+          <button nz-button [nzType]="'danger'" [nzSize]="'large'" type="button" class="form_input" (click)="reset()">
+            <span *ngIf="!isUpdate">清空</span>
+            <span *ngIf="isUpdate">撤回修改</span>
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </div>
 </div>

@@ -20,6 +20,7 @@ export class Student {
 
 export class Prize {
   constructor(
+    public prizeId: any,
     public prizeName: any,
     public prizeClass: any,
     public prizeLevel: any,
@@ -33,7 +34,7 @@ export class Prize {
     public reviewDate: any,
     public reviewer: any,
     public stuId: any,
-    public stuName: any
+    public stuName: any,
   ) { }
 }
 
@@ -47,7 +48,8 @@ export class Org {
     public orgBegin: any,
     public orgEnd: any,
     public orgIntro: any,
-    public orgHonor: any
+    public orgHonor: any,
+    public file: any
   ) { }
 }
 
@@ -79,7 +81,8 @@ export class Paper {
     public accessNumber: any,
     public authorLevel: any,
     public paperId: any,
-    public url: any
+    public url: any,
+    public intro: any,
   ) { }
 }
 
@@ -157,7 +160,7 @@ export const prizeTypeList = [{
     isLeaf: true
   }]
 },
-{
+/*{
   value: '应用技能类',
   label: '应用技能类',
   children: [{
@@ -175,8 +178,8 @@ export const prizeTypeList = [{
     label: '其它',
     isLeaf: true
   }]
-},
-{
+},*/
+/*{
   value: '组织管理类',
   label: '组织管理类',
   children: [{
@@ -199,7 +202,7 @@ export const prizeTypeList = [{
     label: '其它',
     isLeaf: true
   }]
-},
+},*/
 {
   value: '社会实践类',
   label: '社会实践类',
@@ -232,7 +235,22 @@ export const prizeTypeList = [{
 
 export const prizeLevelList = ['国际级', '国家级', '省级', '市级', '校级', '院级'];
 
+export const prizeLevel2List = ['一等奖', '二等奖', '三等奖', '其他'];
+
 export const orgTypeList = ['科研、项目组织', '文体类组织', '社会实践组织', '学生组织', '志愿者组织', '班干部', '其它'];
+
+export const authorTypeList = ['通讯作者', '第一作者', '第二作者', '第三作者', '第四作者', '第五作者', '第六作者', '第七作者'];
+
+export const authorTypeMap = [
+  { text: '通讯作者', value: '0' },
+  { text: '第一作者', value: '1' },
+  { text: '第二作者', value: '2' },
+  { text: '第三作者', value: '3' },
+  { text: '第四作者', value: '4' },
+  { text: '第五作者', value: '5' },
+  { text: '第六作者', value: '6' },
+  { text: '第七作者', value: '7' },
+]
 
 export function dateTrans(oriDate: any) {
   if (oriDate == null) {return '无';}

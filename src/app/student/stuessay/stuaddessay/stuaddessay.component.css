@@ -1,3 +1,11 @@
 .row{
   margin: 30px;
 }
+
+.form_input{
+  width: 300px;
+}
+
+.form_button{
+  width: 300px;
+}

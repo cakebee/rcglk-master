@@ -18,14 +18,15 @@ export class StuorgdetailComponent implements OnInit {
   isEdit: boolean = false;
   isConfirmLoading: boolean = false;
 
-  constructor(private route: ActivatedRoute,private fb: FormBuilder, private router: Router) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {
     this.orgId = this.route.snapshot.paramMap.get('id');
     this.createForm();
   }
   
   createForm(){
     this.org = new Org({ value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
-      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true });
+      { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true }, { value: '', disabled: true },
+      { value: '', disabled: true });
     this.orgForm = this.fb.group(this.org);
   }
 

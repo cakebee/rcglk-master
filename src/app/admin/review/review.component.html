@@ -29,16 +29,16 @@
         </nz-list-item-meta>
         <ng-template #content>
           <div style="width: 100%">
-            <div class="itemTag">
-              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel">{{item.prizeLevel}}</nz-tag>
-              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel2">{{item.prizeLevel2}}</nz-tag>
+            <div>
+              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel" class="itemTag">{{item.prizeLevel}}</nz-tag>
+              <nz-tag nzColor="#f50" *ngIf="item.prizeLevel2" class="itemTag">{{item.prizeLevel2}}</nz-tag>
             </div>
             <p nz-popover [nzContent]="'获奖时间'" class="itemDetail">{{item.prizeDate}}</p>
             <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
           </div>
         </ng-template>
         <ng-template #downloadAction>
-          <a>
+          <a href="{{filePath}}/{{item.file}}" target="_blank">
             <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
           </a>
         </ng-template>
@@ -59,20 +59,24 @@
     </ng-template>
     <ng-template #paperItem let-item>
       <nz-list-item [nzContent]="content" [nzActions]="[browseAction, passAction, notPassAction]">
-        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.magezine">
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.intro">
           <ng-template #nzTitle>
-            <a>{{item.name}}</a>
+            <a>{{item.name}}</a>（发布于{{item.periodical}}）
           </ng-template>
         </nz-list-item-meta>
         <ng-template #content>
           <div style="width: 100%">
             <nz-tag nzColor="#2db7f5" class="itemTag">{{item.level}}</nz-tag>
+            <nz-tag nzColor="#2db7f5" class="itemTag">
+              <span *ngIf="item.authorLevel == 0">通讯作者</span>
+              <span *ngIf="item.authorLevel != 0">第{{item.authorLevel}}作者</span>
+            </nz-tag>
             <p nz-popover [nzContent]="'发表时间'" class="itemDetail">{{item.date}}</p>
             <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.author}}</p>
           </div>
         </ng-template>
         <ng-template #browseAction>
-          <a href="http://localhost:8080/uploadFile/{{item.file}}">
+          <a href="{{filePath}}/{{item.file}}" target="_blank">
             <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
           </a>
         </ng-template>
@@ -105,7 +109,7 @@
           </div>
         </ng-template>
         <ng-template #downloadAction>
-          <a href="">
+          <a href="{{filePath}}/{{item.prizeFile}}" target="_blank">
             <button nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
           </a>
         </ng-template>

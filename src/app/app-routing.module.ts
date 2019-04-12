@@ -28,6 +28,7 @@ import { from } from 'rxjs';
 import {AdqualityComponent} from './admin/adquality/adquality.component';
 import {QualitydetailComponent} from './admin/adquality/qualitydetail/qualitydetail.component';
 import {ReviewComponent} from './admin/review/review.component';
+import {StureiviewComponent} from './student/stureiview/stureiview.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
         component: StuaddprizeComponent
       },
       {
+        path: 'addprize/:id',
+        component: StuaddprizeComponent
+      },
+      {
         path: 'viewprize',
         component: StuviewprizeComponent
       },
@@ -56,6 +61,10 @@ const routes: Routes = [
       },
       {
         path: 'addorg',
+        component: StuaddorgComponent
+      },
+      {
+        path: 'addorg/:id',
         component: StuaddorgComponent
       },
       {
@@ -75,8 +84,16 @@ const routes: Routes = [
         component: StuaddessayComponent,
       },
       {
+        path: 'addessay/:id',
+        component: StuaddessayComponent,
+      },
+      {
         path: 'viewessay',
         component: StuviewessayComponent
+      },
+      {
+        path: 'review',
+        component: StureiviewComponent
       }
     ]
   },

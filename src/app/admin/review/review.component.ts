@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {domain} from '../../config';
+import {domain, filePath} from '../../config';
 import {dateTrans} from '../../data.model';
 import {NzMessageService} from 'ng-zorro-antd';
 
@@ -20,6 +20,7 @@ export class ReviewComponent implements OnInit {
   isVisible: boolean = false;
   allButtonDisable: boolean = false;
   submitButtonDisable: boolean = true;
+  filePath = filePath;
 
   getUnreviewed() {
     this._loading = true;

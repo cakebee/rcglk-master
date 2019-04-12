@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {domain} from '../../../config';
+import {domain, filePath} from '../../../config';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {dateTrans, Paper} from '../../../data.model';
 import {PdfViewerComponent} from 'ng2-pdf-viewer';
@@ -20,7 +20,7 @@ export class EssaymanagerComponent implements OnInit {
   _pages = 0;
   paper: any;
   isFuzzy: boolean = false;
-  pdf: 'http://localhost:8080/Paper/file/1';
+  filePath = filePath;
 
   paperName: string;
   stuName: string;
@@ -240,7 +240,8 @@ export class EssaymanagerComponent implements OnInit {
 
   createForm() {
     this.paper = new Paper('', '', '', '', '', '', '',
-      '', '', '', '', '', '', '', '', '');
+      '', '', '', '', '', '', '',
+      '', '', '');
     this.paper.dateBegin = '';
     this.paper.dateEnd = '';
     this.paper.submitDateBegin = '';
@@ -252,9 +253,7 @@ export class EssaymanagerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this._loading = true;
     this.getPaper();
     this.createForm();
-    this._loading = false;
   }
 }
