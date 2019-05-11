@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {domain, filePath} from '../../config';
 import {UserService} from '../../service/user.service';
-import {dateTrans} from '../../data.model';
+import {dateTrans, prizeTrans} from '../../data.model';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 
@@ -15,9 +15,11 @@ export class StureiviewComponent implements OnInit {
   unReviewedPaperList = [];
   unReviewedPrizeList = [];
   unReviewedOrgList = [];
+  unReviewedProjectList = [];
   noPassPaperList = [];
   noPassPrizeList = [];
   noPassOrgList = [];
+  noPassProjectList = [];
 
   getPaper() {
     const xhr = new XMLHttpRequest();
@@ -72,11 +74,7 @@ export class StureiviewComponent implements OnInit {
         if (xhr.status === 200) {
           if (JSON.parse(xhr.responseText).code === 100) {
             this.unReviewedPrizeList = JSON.parse(xhr.responseText).extend.pageBean.list;
-            for (const i in this.unReviewedPrizeList) {
-              this.unReviewedPrizeList[i].prizeDate = dateTrans(this.unReviewedPrizeList[i].prizeDate);
-              this.unReviewedPrizeList[i].submitDate = dateTrans(this.unReviewedPrizeList[i].submitDate);
-              this.unReviewedPrizeList[i].reviewDate = dateTrans(this.unReviewedPrizeList[i].reviewDate);
-            }
+            this.unReviewedPrizeList = prizeTrans(this.unReviewedPrizeList);
           } else {
             alert('获取数据失败');
           }
@@ -159,6 +157,54 @@ export class StureiviewComponent implements OnInit {
     xhr1.send();
   }
 
+  getProject() {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          if (JSON.parse(xhr.responseText).code === 100) {
+            this.unReviewedProjectList = JSON.parse(xhr.responseText).extend.pageBean.list;
+            for (const i in this.unReviewedProjectList) {
+              this.unReviewedProjectList[i].startDate = dateTrans(this.unReviewedProjectList[i].startDate);
+              this.unReviewedProjectList[i].endDate = dateTrans(this.unReviewedProjectList[i].endDate);
+              this.unReviewedProjectList[i].submitDate = dateTrans(this.unReviewedProjectList[i].submitDate);
+              this.unReviewedProjectList[i].reviewDate = dateTrans(this.unReviewedProjectList[i].reviewDate);
+            }
+          } else {
+            alert('获取数据失败');
+          }
+        } else {
+          alert('服务器无响应');
+        }
+      }
+    };
+    xhr.open('GET', `${domain}/project/${this.userService.user.userName}/0?isPage=true&pageNum=1&pageSize=1000`);
+    xhr.send();
+
+    const xhr1 = new XMLHttpRequest();
+    xhr1.onreadystatechange = () => {
+      if (xhr1.readyState === 4) {
+        if (xhr1.status === 200) {
+          if (JSON.parse(xhr.responseText).code === 100) {
+            this.noPassProjectList = JSON.parse(xhr1.responseText).extend.pageBean.list;
+            for (const i in this.noPassProjectList) {
+              this.noPassProjectList[i].startDate = dateTrans(this.noPassProjectList[i].startDate);
+              this.noPassProjectList[i].endDate = dateTrans(this.noPassProjectList[i].endDate);
+              this.noPassProjectList[i].submitDate = dateTrans(this.noPassProjectList[i].submitDate);
+              this.noPassProjectList[i].reviewDate = dateTrans(this.noPassProjectList[i].reviewDate);
+            }
+          } else {
+            alert('获取数据失败');
+          }
+        } else {
+          alert('服务器无响应');
+        }
+      }
+    };
+    xhr1.open('GET', `${domain}/project/${this.userService.user.userName}/2?isPage=true&pageNum=1&pageSize=1000`);
+    xhr1.send();
+  }
+
   delPaper(id) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -219,6 +265,26 @@ export class StureiviewComponent implements OnInit {
     xhr.send();
   }
 
+  delProject(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          if (JSON.parse(xhr.responseText).code === 100) {
+            this.message.success('删除成功');
+            this.getOrg();
+          } else {
+            this.message.error(JSON.parse(xhr.responseText).extend.msg);
+          }
+        } else {
+          alert(xhr.responseText);
+        }
+      }
+    };
+    xhr.open('DELETE', `${domain}/project/${id}`);
+    xhr.send();
+  }
+
   reeditPrize(id) {
     this.router.navigateByUrl(`/student/addprize/${id}`);
   }
@@ -231,12 +297,17 @@ export class StureiviewComponent implements OnInit {
     this.router.navigateByUrl(`/student/addorg/${id}`);
   }
 
+  reeditProject(id) {
+    this.router.navigateByUrl(`/student/addproject/${id}`);
+  }
+
   constructor(private userService: UserService, private message: NzMessageService, private router: Router) { }
 
   ngOnInit() {
     this.getPaper();
     this.getPrize();
     this.getOrg();
+    this.getProject();
   }
 
 }

@@ -22,13 +22,13 @@ import { OrgcheckComponent } from './admin/adorg/orgcheck/orgcheck.component';
 import { StuaddessayComponent } from './student/stuessay/stuaddessay/stuaddessay.component';
 import { StuviewessayComponent } from './student/stuessay/stuviewessay/stuviewessay.component';
 import { EssaymanagerComponent } from './admin/adessay/essaymanager/essaymanager.component';
-
-import { StudentGuard } from './guard/student.guard'
-import { from } from 'rxjs';
 import {AdqualityComponent} from './admin/adquality/adquality.component';
 import {QualitydetailComponent} from './admin/adquality/qualitydetail/qualitydetail.component';
 import {ReviewComponent} from './admin/review/review.component';
 import {StureiviewComponent} from './student/stureiview/stureiview.component';
+import {StuaddprojectComponent} from './student/stuproject/stuaddproject/stuaddproject.component';
+import {StuviewprojectComponent} from './student/stuproject/stuviewproject/stuviewproject.component';
+import {ProjectmanagerComponent} from './admin/adproject/projectmanager/projectmanager.component';
 
 
 const routes: Routes = [
@@ -92,6 +92,18 @@ const routes: Routes = [
         component: StuviewessayComponent
       },
       {
+        path: 'addproject',
+        component: StuaddprojectComponent
+      },
+      {
+        path: 'addproject/:id',
+        component: StuaddprojectComponent
+      },
+      {
+        path: 'viewproject',
+        component: StuviewprojectComponent
+      },
+      {
         path: 'review',
         component: StureiviewComponent
       }
@@ -137,6 +149,10 @@ const routes: Routes = [
       {
         path: 'review',
         component: ReviewComponent
+      },
+      {
+        path: 'project',
+        component: ProjectmanagerComponent
       }
     ]
   },

@@ -41,6 +41,11 @@ import { QualitydetailComponent } from './admin/adquality/qualitydetail/qualityd
 import { ReviewComponent } from './admin/review/review.component';
 import { PaperDetailComponent } from './admin/adessay/paper-detail/paper-detail.component';
 import { StureiviewComponent } from './student/stureiview/stureiview.component';
+import { StuprojectComponent } from './student/stuproject/stuproject.component';
+import { StuaddprojectComponent } from './student/stuproject/stuaddproject/stuaddproject.component';
+import { StuviewprojectComponent } from './student/stuproject/stuviewproject/stuviewproject.component';
+import { AdprojectComponent } from './admin/adproject/adproject.component';
+import { ProjectmanagerComponent } from './admin/adproject/projectmanager/projectmanager.component';
 
 registerLocaleData(zh);
 
@@ -78,6 +83,11 @@ registerLocaleData(zh);
     ReviewComponent,
     PaperDetailComponent,
     StureiviewComponent,
+    StuprojectComponent,
+    StuaddprojectComponent,
+    StuviewprojectComponent,
+    AdprojectComponent,
+    ProjectmanagerComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,17 +12,40 @@
   </nz-breadcrumb>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'为什么没有通过呢？'" (nzOnOk)="confirmNotPass()" (nzOnCancel)="cancelReasonModal()">
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'为什么没有通过呢？'" (nzOnOk)="confirmNotPass()"
+          (nzOnCancel)="cancelReasonModal()">
   <textarea rows="4" nz-input [(ngModel)]="reason" placeholder="请输入未通过的原因"></textarea>
 </nz-modal>
+
+<nz-modal [(nzVisible)]="itemIntroVisible" [nzTitle]="'补充说明'" (nzOnCancel)="cancelItemIntro()"
+          (nzOnOk)="cancelItemIntro()">
+  <div>
+    <p>{{this.intro}}</p>
+  </div>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="detailVisible" [nzTitle]="this.project.name" (nzOnCancel)="cancelProjectDetail()"
+          (nzOnOk)="cancelProjectDetail()">
+  <div>
+    <span class="detailTitle">项目介绍</span>
+    <p class="detailContent">{{this.project.intro}}</p>
+    <span class="detailTitle">职责</span>
+    <p>{{this.project.duty}}</p>
+    <span class="detailTitle">补充说明</span>
+    <p *ngIf="!this.project.supp">无</p>
+    <p>{{this.project.supp}}</p>
+  </div>
+</nz-modal>
+
 <div>
-  <nz-list [nzDataSource]="prizeList" nzSize="large" [nzRenderItem]="prizeItem" [nzHeader]="header" [nzLoading]="_loading">
+  <nz-list [nzDataSource]="prizeList" nzSize="large" [nzRenderItem]="prizeItem" [nzHeader]="header"
+           [nzLoading]="_loading">
     <ng-template #header>
       <strong>奖项</strong>
     </ng-template>
     <ng-template #prizeItem let-item>
-      <nz-list-item [nzContent]="content" [nzActions]="[downloadAction, passAction, notPassAction]">
-        <nz-list-item-meta [nzTitle]="title" [nzDescription]="item.prizeIntro">
+      <nz-list-item [nzContent]="content" [nzActions]="[introAction, downloadAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="title">
           <ng-template #title>
             <a routerLink="../prizecheck/{{item.prizeId}}">{{item.prizeName}}（{{item.prizeClass}}）</a>
           </ng-template>
@@ -36,6 +59,9 @@
             <p nz-popover [nzContent]="'获奖时间'" class="itemDetail">{{item.prizeDate}}</p>
             <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
           </div>
+        </ng-template>
+        <ng-template #introAction>
+          <button [disabled]="!item.prizeIntro" nz-button nzType="primary" (click)="showItemIntro(item.prizeIntro)">说明</button>
         </ng-template>
         <ng-template #downloadAction>
           <a href="{{filePath}}/{{item.file}}" target="_blank">
@@ -53,13 +79,14 @@
   </nz-list>
 
 
-  <nz-list [nzDataSource]="paperList" nzSize="large" [nzRenderItem]="paperItem" [nzHeader]="paperHeader" [nzLoading]="_loading">
+  <nz-list [nzDataSource]="paperList" nzSize="large" [nzRenderItem]="paperItem" [nzHeader]="paperHeader"
+           [nzLoading]="_loading">
     <ng-template #paperHeader>
       <strong>论文</strong>
     </ng-template>
     <ng-template #paperItem let-item>
-      <nz-list-item [nzContent]="content" [nzActions]="[browseAction, passAction, notPassAction]">
-        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.intro">
+      <nz-list-item [nzContent]="content" [nzActions]="[introAction, browseAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="nzTitle">
           <ng-template #nzTitle>
             <a>{{item.name}}</a>（发布于{{item.periodical}}）
           </ng-template>
@@ -74,6 +101,9 @@
             <p nz-popover [nzContent]="'发表时间'" class="itemDetail">{{item.date}}</p>
             <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.author}}</p>
           </div>
+        </ng-template>
+        <ng-template #introAction>
+          <button [disabled]="!item.intro" nz-button nzType="primary" (click)="showItemIntro(item.intro)">说明</button>
         </ng-template>
         <ng-template #browseAction>
           <a href="{{filePath}}/{{item.file}}" target="_blank">
@@ -90,13 +120,51 @@
     </ng-template>
   </nz-list>
 
-  <nz-list [nzDataSource]="orgList" nzSize="large" [nzRenderItem]="orgItem" [nzHeader]="orgHeader" [nzLoading]="_loading">
+  <nz-list [nzDataSource]="projectList" nzSize="large" [nzRenderItem]="projectItem" [nzHeader]="projectHeader"
+           [nzLoading]="_loading">
+    <ng-template #projectHeader>
+      <strong>项目</strong>
+    </ng-template>
+    <ng-template #projectItem let-item>
+      <nz-list-item [nzContent]="content" [nzActions]="[detailAction, browseAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="nzTitle">
+          <ng-template #nzTitle>
+            <a>{{item.name}}</a>（{{item.roleDetl}}）
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #content>
+          <div style="width: 100%">
+            <p nz-popover [nzContent]="'起止时间'" class="itemDetail" style="width: 40%">{{item.startDate}}
+              至{{item.endDate}}</p>
+            <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
+          </div>
+        </ng-template>
+        <ng-template #detailAction>
+          <button nz-button nzType="primary" (click)="showProjectDetail(item.id)">详情</button>
+        </ng-template>
+        <ng-template #browseAction>
+          <a href="{{filePath}}/{{item.file}}" target="_blank">
+            <button [disabled]="!item.file" nz-button nzType="primary" nzShape="round"><i nz-icon type="search"></i>证明文件</button>
+          </a>
+        </ng-template>
+        <ng-template #passAction>
+          <button nz-button nzType="primary" (click)="pass('project', item.id)">通过</button>
+        </ng-template>
+        <ng-template #notPassAction>
+          <button nz-button nzType="danger" (click)="notPass('project', item.id)">不通过</button>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+
+  <nz-list [nzDataSource]="orgList" nzSize="large" [nzRenderItem]="orgItem" [nzHeader]="orgHeader"
+           [nzLoading]="_loading">
     <ng-template #orgHeader>
       <strong>组织经历</strong>
     </ng-template>
     <ng-template #orgItem let-item>
-      <nz-list-item [nzContent]="content" [nzActions]="[downloadAction, passAction, notPassAction]">
-        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.orgIntro">
+      <nz-list-item [nzContent]="content" [nzActions]="[introAction, downloadAction, passAction, notPassAction]">
+        <nz-list-item-meta [nzTitle]="nzTitle">
           <ng-template #nzTitle>
             <a routerLink="../orgcheck/{{item.orgId}}">{{item.orgName}}（{{item.orgDuty}}）</a>
           </ng-template>
@@ -104,9 +172,13 @@
         <ng-template #content>
           <div style="width: 100%">
             <nz-tag nzColor="#87d068" class="itemTag" *ngIf="item.orgHonor">{{item.orgHonor}}</nz-tag>
-            <p nz-popover [nzContent]="'起止时间'" class="itemDetail" style="width: 40%">{{item.orgBegin}}至{{item.orgEnd}}</p>
+            <p nz-popover [nzContent]="'起止时间'" class="itemDetail" style="width: 40%">{{item.orgBegin}}
+              至{{item.orgEnd}}</p>
             <p nz-popover [nzContent]="item.stuId" class="itemDetail">{{item.stuName}}</p>
           </div>
+        </ng-template>
+        <ng-template #introAction>
+          <button [disabled]="!item.orgIntro" nz-button nzType="primary" (click)="showItemIntro(item.orgIntro)">说明</button>
         </ng-template>
         <ng-template #downloadAction>
           <a href="{{filePath}}/{{item.prizeFile}}" target="_blank">

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UserService } from '../../../service/user.service';
-import { dateTrans, statusTrans } from '../../../data.model'
+import { dateTrans, statusTrans } from '../../../data.model';
 import { domain } from '../../../config';
 
 @Component({

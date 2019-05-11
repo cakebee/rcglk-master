@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           }
         }
         else {
-          alert("服务器无相应，请稍后再试...")
+          alert("服务器无响应，请稍后再试...")
           this.isConfirmLoading = false;
           // 失败，根据响应码判断失败原因:
         }

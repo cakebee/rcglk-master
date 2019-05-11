@@ -1,0 +1,46 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      获奖信息
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      查看获奖信息
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+
+
+<div style="margin: 30px;text-align: center;">
+  <nz-table #basicTable [nzBordered]="true" [nzData]="projectList" [nzLoading]="_loading" [nzFrontPagination]="false"
+            [(nzPageSize)]="_pageSize" [(nzPageIndex)]="_current" [nzShowTotal]="totalTemplate" [nzTotal]="_total"
+            [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" (nzPageSizeChange)="getProject()" (nzPageIndexChange)="getProject()">
+    <ng-template #totalTemplate let-total>
+      共{{total}}条记录
+    </ng-template>
+
+    <thead>
+    <tr>
+      <th>项目名称</th>
+      <th>学生姓名</th>
+      <th>担任角色</th>
+      <th>职责</th>
+      <th>起止日期</th>
+      <th>链接</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td><a>{{data.name}}</a></td>
+      <td>{{data.stuName}}</td>
+      <td>{{data.roleDetl}}</td>
+      <td>{{data.duty}}</td>
+      <td>{{data.startDate}}~{{data.endDate}}</td>
+      <td></td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,128 @@
+<div>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      主页
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      项目经历
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      添加项目经历
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
+<div style="margin: 30px;">
+  <div nz-col [nzOffset]="5">
+    <form nz-form [formGroup]="projectForm" (ngSubmit)="_submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">项目名</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="name" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">项目介绍</nz-form-label>
+        <nz-form-control [nzOffset]="4" class="form_input">
+          <textarea nzAutosize="true" class="form_input" formControlName="intro" nz-input
+                    [maxLength]="introLimit" (keyup)="checkIntro()" (mouseenter)="checkIntro()"></textarea>
+          <span style="float: right">#还能输入{{introLengthRemain}}字</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">起止日期</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="startDate" class="form_half_input"></nz-date-picker>
+          <nz-date-picker formControlName="endDate" class="form_half_input"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">担任角色</nz-form-label>
+        <nz-form-control>
+          <nz-cascader [nzOptions]="roleDetlOptions" formControlName="roleDetl" class="form_input"
+                       nzPlaceHolder="请选择角色"></nz-cascader>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" [nzRequired]="!isUpdate">职责（工作内容）</nz-form-label>
+        <nz-form-control [nzOffset]="4" class="form_input">
+          <textarea nzAutosize="true" class="form_input" formControlName="duty" nz-input
+                    [maxLength]="dutyLimit" (keyup)="checkDuty()" (mouseenter)="checkDuty()"></textarea>
+          <span style="float: right">#还能输入{{dutyLengthRemain}}字</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">证明文件</nz-form-label>
+        <nz-form-control class="form_input" [nzOffset]="4">
+          <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzRemove]="delFile">
+            <button nz-button value="upload" type="button" class="form_input">
+              <i nz-icon type="upload"></i><span>上传PDF文件</span>
+            </button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">开发环境</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="env" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">框架</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="frame" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">项目链接</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="projLink" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">源码链接</nz-form-label>
+        <nz-form-control>
+          <input class="form_input" formControlName="srcLink" nz-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">说明</nz-form-label>
+        <nz-form-control [nzOffset]="4" class="form_input">
+          <textarea nzAutosize="true" class="form_input" formControlName="supp" nz-input
+                    [maxLength]="suppLimit" (keyup)="checkSupp()" (mouseenter)="checkSupp()"></textarea>
+          <span class="input_reminder">#还能输入{{suppLengthRemain}}字</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 10px">
+        <nz-form-control [nzSpan]="8" [nzOffset]="4">
+          <button nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isConfirmLoading" class="form_input">
+            提交
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+          <button nz-button [nzType]="'danger'" [nzSize]="'large'" type="button" class="form_input" (click)="reset()"
+                  [disabled]="isConfirmLoading">
+            <span *ngIf="!isUpdate">清空</span>
+            <span *ngIf="isUpdate">撤回修改</span>
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </div>
+</div>
+

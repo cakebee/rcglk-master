@@ -67,6 +67,47 @@
           </ng-template>
         </div>
 
+        <div *ngFor="let paper of unReviewedPaperList">
+          <nz-card nzType="inner"  [nzTitle]="paperTemplate" nzBordered="true"
+                   [nzActions]="" style="margin-bottom: 20px" [nzExtra]="extra">
+            <div>
+              <span style="float: right">提交于{{paper.submitDate}}</span>
+            </div>
+          </nz-card>
+          <ng-template #paperTemplate>
+            {{paper.name}}
+            （
+            {{paper.level}}/
+            <span *ngIf="paper.authorLevel == 0">通讯作者</span>
+            <span *ngIf="paper.authorLevel != 0">第{{paper.authorLevel}}作者</span>
+            /{{paper.date}}
+            ）
+          </ng-template>
+          <ng-template #extra>
+            <a style="margin-right: 20px;" href="{{filePath}}/{{paper.file}}" target="_blank">证明文件</a>
+            <a style="margin-right: 20px;" (click)="reeditPaper(paper.id)">修改</a>
+            <a (click)="delPaper(paper.id)">删除</a>
+          </ng-template>
+        </div>
+
+        <div *ngFor="let project of noPassProjectList">
+          <nz-card nzType="inner"  [nzTitle]="projectTemplate" nzBordered="true"
+                   [nzActions]="" style="margin-bottom: 20px" [nzExtra]="extra">
+            <div>
+              <span class="detailTitle">未通过原因</span>
+              <p class="detailContent">{{project.reason}}</p>
+            </div>
+          </nz-card>
+          <ng-template #projectTemplate>
+            {{project.name}}（{{project.roleDetl}}）
+          </ng-template>
+          <ng-template #extra>
+            <a style="margin-right: 20px;" href="{{filePath}}/{{project.file}}" target="_blank">证明文件</a>
+            <a style="margin-right: 20px;" (click)="reeditProject(project.id)">修改</a>
+            <a (click)="delProject(project.id)">删除</a>
+          </ng-template>
+        </div>
+
         <div *ngFor="let org of noPassOrgList">
           <nz-card nzType="inner"  [nzTitle]="prizeTemplate" nzBordered="true"
                    [nzActions]="" style="margin-bottom: 20px" [nzExtra]="extra">
@@ -100,7 +141,7 @@
           <nz-card nzType="inner"  [nzTitle]="prizeTemplate" nzBordered="true"
                    [nzActions]="" style="margin-bottom: 20px" [nzExtra]="extra">
             <div>
-              <span>{{prize.prizeIntro}}</span>
+              <p class="detailContent">{{prize.prizeIntro}}</p>
               <br>
               <span style="float: right">提交于{{prize.submitDate}}</span>
             </div>
@@ -139,6 +180,32 @@
             <a style="margin-right: 20px;" href="{{filePath}}/{{paper.file}}" target="_blank">证明文件</a>
             <a style="margin-right: 20px;" (click)="reeditPaper(paper.id)">修改</a>
             <a (click)="delPaper(paper.id)">删除</a>
+          </ng-template>
+        </div>
+
+        <div *ngFor="let project of unReviewedProjectList">
+          <nz-card nzType="inner"  [nzTitle]="projectTemplate" nzBordered="true"
+                   [nzActions]="" style="margin-bottom: 20px" [nzExtra]="extra">
+            <div style="width: 100%">
+              <span class="detailTitle">项目介绍</span>
+              <p class="detailContent">{{project.intro}}</p>
+              <span class="detailTitle">环境与框架</span>
+              <p class="detailContent">开发环境：{{project.env}}<br>
+                框架：{{project.frame}}</p>
+              <span class="detailTitle">职责</span>
+              <p class="detailContent">{{project.duty}}</p>
+              <span class="detailTitle">补充说明</span>
+              <p class="detailContent">{{project.supp}}</p>
+              <span style="float: right">提交于{{project.submitDate}}</span>
+            </div>
+          </nz-card>
+          <ng-template #projectTemplate>
+            {{project.name}}（{{project.roleDetl}}）
+          </ng-template>
+          <ng-template #extra>
+            <a style="margin-right: 20px;" href="{{filePath}}/{{project.file}}" target="_blank">证明文件</a>
+            <a style="margin-right: 20px;" (click)="reeditProject(project.id)">修改</a>
+            <a (click)="delProject(project.id)">删除</a>
           </ng-template>
         </div>
 

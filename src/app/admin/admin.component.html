@@ -8,24 +8,27 @@
     <nz-affix>
       <ul nz-menu [nzMode]="'horizontal'">
         <li nz-menu-item routerLink="./user">
-          <i class="anticon anticon-user"></i> 用户管理
+          <i nz-icon type="user"></i> 用户管理
         </li>
         <li nz-menu-item routerLink="./prize">
-          <i class="anticon anticon-star"></i> 奖项管理
+          <i nz-icon type="star"></i> 奖项管理
         </li>
 
         <li nz-menu-item routerLink="./org">
-          <i class="anticon anticon-heart"></i> 组织活动管理
+          <i nz-icon type="heart"></i> 组织活动管理
         </li>
 
         <li nz-menu-item routerLink="./essay">
           <i nz-icon type="book"></i> 论文管理
         </li>
+        <li nz-menu-item routerLink="./project">
+          <i nz-icon type="book"></i> 项目管理
+        </li>
         <li nz-menu-item routerLink="./quality">
-          <i class="anticon anticon-fund"></i> 综合素质
+          <i nz-icon type="fund"></i> 综合素质
         </li>
         <li nz-menu-item routerLink="./review">
-          <i class="anticon anticon-file-text"></i> 审核
+          <i nz-icon type="file-text"></i> 审核
           <nz-badge [nzCount]="allBadge" class="badge-righttop"></nz-badge>
         </li>
       </ul>

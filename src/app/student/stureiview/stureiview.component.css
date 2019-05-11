@@ -1,0 +1,9 @@
+.detailTitle{
+  font-weight: bold;
+  font-size: 1.3em;
+}
+.detailContent{
+  word-wrap:break-word;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}

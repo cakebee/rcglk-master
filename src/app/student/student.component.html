@@ -7,11 +7,11 @@
   <nz-content style="padding:25px 50px 10px 50px">
     <ul nz-menu [nzMode]="'horizontal'">
       <li nz-menu-item routerLink="./info">
-        <i class="anticon anticon-mail"></i> 个人信息
+        <i nz-icon type = "mail"></i> 个人信息
       </li>
       <li nz-submenu>
         <span title>
-          <i class="anticon anticon-setting"></i> 获奖信息</span>
+          <i nz-icon type = "setting"></i> 获奖信息</span>
         <ul>
           <li nz-menu-group>
             <ul>
@@ -23,7 +23,7 @@
       </li>
       <li nz-submenu>
         <span title>
-          <i class="anticon anticon-setting"></i> 活动组织经历</span>
+          <i nz-icon type = "setting"></i> 活动组织经历</span>
         <ul>
           <li nz-menu-group>
             <ul>
@@ -35,7 +35,7 @@
       </li>
       <li nz-submenu>
         <span title>
-          <i class="anticon anticon-setting"></i> 论文信息</span>
+          <i nz-icon type = "setting"></i> 论文信息</span>
         <ul>
           <li nz-menu-group>
             <ul>
@@ -45,9 +45,21 @@
           </li>
         </ul>
       </li>
+      <li nz-submenu>
+        <span title>
+          <i nz-icon type = "setting"></i>项目经历</span>
+        <ul>
+          <li nz-menu-group>
+            <ul>
+              <li nz-menu-item routerLink="./addproject">添加项目经历</li>
+              <li nz-menu-item routerLink="./viewproject">查看项目经历</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
 
       <li nz-menu-item routerLink="./review">
-        <i class="anticon anticon-mail"></i> 审核
+        <i nz-icon type = "mail"></i> 审核
       </li>
 
     </ul>
@@ -55,5 +67,5 @@
       <router-outlet></router-outlet>
     </div>
   </nz-content>
-  <nz-footer style="text-align: center;">YiLu studio  ©2018 Authored by Group 3</nz-footer>
+  <nz-footer style="text-align: center;">YiLu studio  ©2019 Authored by Group 3</nz-footer>
 </nz-layout>
